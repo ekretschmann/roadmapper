@@ -15,31 +15,30 @@
 				More info
 		</div>
 	</div>
-	<div data-ng-if="authentication.user" data-ng-controller="ProjectsController" data-ng-init="find()">
-		{{projects | json}}
-		<h2>Congrats! You've configured and run the sample application.</h2>
-		<p>MEAN.JS is a web application boilerplate, which means you should start changing everything :-)</p>
-		<p>This sample application tracks users and articles.</p>
-		<ul>
-			<li>
-				Click
-				<em>Signup</em>
-				to get started.
-			</li>
-			<li>
-				Configure your app to work with your social accounts, by editing the
-				<em>/config/env/*.js</em>
-				files.
-			</li>
-			<li>
-				Edit your users module.
-			</li>
-			<li>
-				Add new CRUD modules.
-			</li>
-			<li>
-				Have fun...
-			</li>
-		</ul>
+	<div data-ng-if="authentication.user" data-ng-controller="ProjectsController" data-ng-init="find()" >
+
+		<div data-ng-if="projects.length > 0">
+
+			<h2>Your Projects</h2>
+
+			<div class="row" data-ng-repeat="project in projects">
+
+				<div class="col-lg-6">
+					<a href="/#!/projects/{{project._id}}">{{project.name}}</a>
+				</div>
+				<div class="col-lg-3">
+					some description
+				</div>
+
+				<div class="col-lg-3">
+					maybe creation date
+				</div>
+
+
+			</div>
+		</div>
+		<div data-ng-if="projects.length === 0">
+			You have to create a project
+		</div>
 	</div>
 </section>
