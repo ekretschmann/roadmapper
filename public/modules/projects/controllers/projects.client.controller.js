@@ -53,7 +53,9 @@ angular.module('projects').controller('ProjectsController', ['$scope', '$statePa
 
 		// Find a list of Projects
 		$scope.find = function() {
-			$scope.projects = Projects.query();
+			$scope.projects = Projects.query({
+				user: $scope.authentication.user._id
+			});
 		};
 
 		// Find existing Project
