@@ -62,5 +62,13 @@ angular.module('roadmaps').controller('RoadmapsController', ['$scope', '$statePa
 				roadmapId: $stateParams.roadmapId
 			});
 		};
+
+		// Find existing Roadmap
+		$scope.findById = function(id) {
+			console.log(id);
+			$scope.roadmap = Roadmaps.get({
+				roadmapId: id
+			});
+		};
 	}
 ]);

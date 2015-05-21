@@ -1,9 +1,47 @@
 'use strict';
 
 // Projects controller
-angular.module('projects').controller('ProjectsController', ['$scope', '$stateParams', '$location', 'Authentication', 'Projects',
-	function($scope, $stateParams, $location, Authentication, Projects) {
+angular.module('projects').controller('ProjectsController', ['$scope', '$stateParams', '$location', 'Authentication', 'Projects', 'Roadmaps',
+	function($scope, $stateParams, $location, Authentication, Projects, Roadmaps) {
 		$scope.authentication = Authentication;
+
+		$scope.roadmapName = '';
+		$scope.epicName = '';
+
+
+		$scope.addEpic = function() {
+
+			$scope.project.epics.push($scope.epicName);
+			$scope.project.$update(function(response) {
+				$scope.epicName = '';
+			}, function(errorResponse) {
+				console.log(errorResponse);
+			});
+		};
+
+		$scope.addRoadmap = function() {
+			var newRoadmap =new Roadmaps({
+				name: $scope.roadmapName
+			});
+
+
+			newRoadmap.$save(function(response) {
+				console.log(response);
+
+				$scope.project.roadmaps.push(newRoadmap._id);
+				$scope.project.$update(function(response) {
+					console.log(response);
+				}, function(errorResponse) {
+					console.log(errorResponse);
+				});
+			}, function(errorResponse) {
+				console.log(errorResponse);
+			});
+
+		};
+
+
+
 
 		// Create new Project
 		$scope.create = function() {

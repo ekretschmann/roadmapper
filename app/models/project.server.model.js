@@ -23,6 +23,14 @@ var ProjectSchema = new Schema({
 	user: {
 		type: Schema.ObjectId,
 		ref: 'User'
+	},
+	roadmaps: {
+		type: [Schema.ObjectId],
+		default: []
+	},
+	epics: {
+		type: [String],
+		default: []
 	}
 });
 
