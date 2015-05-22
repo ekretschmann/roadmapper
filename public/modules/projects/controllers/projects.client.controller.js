@@ -2,105 +2,129 @@
 
 // Projects controller
 angular.module('projects').controller('ProjectsController', ['$scope', '$stateParams', '$location', 'Authentication', 'Projects', 'Roadmaps',
-	function($scope, $stateParams, $location, Authentication, Projects, Roadmaps) {
-		$scope.authentication = Authentication;
+    function ($scope, $stateParams, $location, Authentication, Projects, Roadmaps) {
+        $scope.authentication = Authentication;
 
-		$scope.roadmapName = '';
-		$scope.epicName = '';
-
-
-		$scope.addEpic = function() {
-
-			$scope.project.epics.push($scope.epicName);
-			$scope.project.$update(function(response) {
-				$scope.epicName = '';
-			}, function(errorResponse) {
-				console.log(errorResponse);
-			});
-		};
-
-		$scope.addRoadmap = function() {
-			var newRoadmap =new Roadmaps({
-				name: $scope.roadmapName
-			});
+        $scope.roadmapName = '';
+        $scope.epicName = '';
+        $scope.array = ['a', 'b', 'c', 'd', 'e', 'f'];
 
 
-			newRoadmap.$save(function(response) {
-				console.log(response);
+        $scope.dragControlListeners = {
+            accept: function (sourceItemHandleScope, destSortableScope) {
+                return true;
+            },
+            itemMoved: function (event) {
 
-				$scope.project.roadmaps.push(newRoadmap._id);
-				$scope.project.$update(function(response) {
-					console.log(response);
-				}, function(errorResponse) {
-					console.log(errorResponse);
-				});
-			}, function(errorResponse) {
-				console.log(errorResponse);
-			});
+            },
+            orderChanged: function (event) {
 
-		};
+            },
+            containment: '#board'
+        };
+
+        $scope.addEpic = function () {
+
+            $scope.project.epics.push($scope.epicName);
+            $scope.project.$update(function (response) {
+                $scope.epicName = '';
+            }, function (errorResponse) {
+                console.log(errorResponse);
+            });
+        };
+
+        $scope.removeEpic = function (epic) {
 
 
+            $scope.project.epics.splice($scope.project.epics.indexOf(epic), 1);
+
+            $scope.project.$update(function (response) {
+                $scope.message = 'Removed ' + epic;
+            }, function (errorResponse) {
+                console.log(errorResponse);
+            });
+        };
+
+        $scope.addRoadmap = function () {
+            var newRoadmap = new Roadmaps({
+                name: $scope.roadmapName
+            });
 
 
-		// Create new Project
-		$scope.create = function() {
-			// Create new Project object
-			var project = new Projects ({
-				name: this.name
-			});
+            newRoadmap.$save(function (response) {
+                console.log(response);
 
-			// Redirect after save
-			project.$save(function(response) {
-				$location.path('projects/' + response._id);
+                $scope.project.roadmaps.push(newRoadmap._id);
+                $scope.project.$update(function (response) {
+                    console.log(response);
+                }, function (errorResponse) {
+                    console.log(errorResponse);
+                });
+            }, function (errorResponse) {
+                console.log(errorResponse);
+            });
 
-				// Clear form fields
-				$scope.name = '';
-			}, function(errorResponse) {
-				$scope.error = errorResponse.data.message;
-			});
-		};
+        };
 
-		// Remove existing Project
-		$scope.remove = function(project) {
-			if ( project ) { 
-				project.$remove();
 
-				for (var i in $scope.projects) {
-					if ($scope.projects [i] === project) {
-						$scope.projects.splice(i, 1);
-					}
-				}
-			} else {
-				$scope.project.$remove(function() {
-					$location.path('projects');
-				});
-			}
-		};
+        // Create new Project
+        $scope.create = function () {
+            // Create new Project object
+            var project = new Projects({
+                name: this.name
+            });
 
-		// Update existing Project
-		$scope.update = function() {
-			var project = $scope.project;
+            // Redirect after save
+            project.$save(function (response) {
+                $location.path('projects/' + response._id);
 
-			project.$update(function() {
-				$location.path('projects/' + project._id);
-			}, function(errorResponse) {
-				$scope.error = errorResponse.data.message;
-			});
-		};
+                // Clear form fields
+                $scope.name = '';
+            }, function (errorResponse) {
+                $scope.error = errorResponse.data.message;
+            });
+        };
 
-		// Find a list of Projects
-		$scope.find = function() {
-			$scope.projects = Projects.query({
-				user: $scope.authentication.user._id
-			});
-		};
+        // Remove existing Project
+        $scope.remove = function (project) {
+            if (project) {
+                project.$remove();
 
-		// Find existing Project
-		$scope.findOne = function() {
-			$scope.project = Projects.get({ 
-				projectId: $stateParams.projectId
-			});
-		};
-	}
+                for (var i in $scope.projects) {
+                    if ($scope.projects [i] === project) {
+                        $scope.projects.splice(i, 1);
+                    }
+                }
+            } else {
+                $scope.project.$remove(function () {
+                    $location.path('projects');
+                });
+            }
+        };
+
+        // Update existing Project
+        $scope.update = function () {
+            var project = $scope.project;
+
+            project.$update(function () {
+                $location.path('projects/' + project._id);
+            }, function (errorResponse) {
+                $scope.error = errorResponse.data.message;
+            });
+        };
+
+        // Find a list of Projects
+        $scope.find = function () {
+            $scope.projects = Projects.query({
+                user: $scope.authentication.user._id
+            });
+        };
+
+        // Find existing Project
+        $scope.findOne = function () {
+            $scope.project = Projects.get({
+                projectId: $stateParams.projectId
+            });
+        };
+    }
 ]);
