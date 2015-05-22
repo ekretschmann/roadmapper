@@ -25,23 +25,17 @@
             </div>
         </div>
 
-        <div data-as-sortable="board.dragControlListeners" data-ng-model="project.epics" style="margin-top: 10px">
+        <div data-as-sortable="dragControlListeners" data-ng-model="project.epics" style="margin-top: 10px">
             <div data-ng-repeat="epic in project.epics" data-as-sortable-item>
-                <div data-as-sortable-item-handle style="padding-left: 10px; padding-top: 5px; padding-bottom: 5px">{{epic}}</div>
+                <div data-as-sortable-item-handle style="padding-left: 10px; padding-top: 5px; padding-bottom: 5px">
+                    <a href="" data-ng-click="removeEpic(epic)">
+                        <i class="glyphicon glyphicon-minus-sign "></i>
+                        </a>
+                        {{epic}}
+                    </div>
+                </div>
             </div>
-        </div>
 
-        <!--<ul data-as-sortable data-ng-model="project.epics">-->
-
-            <!--<li ng-repeat="epic in project.epics" class="col-xs-12" data-as-sortable-item>-->
-                <!--<div data-as-sortable-item-handle>-->
-                    <!--<a href="" data-ng-click="removeEpic(epic)">-->
-                        <!--<i class="glyphicon glyphicon-minus-sign "></i>-->
-                    <!--</a>{{epic}}-->
-                <!--</div>-->
-            <!--</li>-->
-
-        <!--</ul>-->
 
     </div>
 

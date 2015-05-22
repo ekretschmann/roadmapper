@@ -7,7 +7,6 @@ angular.module('projects').controller('ProjectsController', ['$scope', '$statePa
 
         $scope.roadmapName = '';
         $scope.epicName = '';
-        $scope.array = ['a', 'b', 'c', 'd', 'e', 'f'];
 
 
         $scope.dragControlListeners = {
@@ -18,7 +17,11 @@ angular.module('projects').controller('ProjectsController', ['$scope', '$statePa
 
             },
             orderChanged: function (event) {
-
+                $scope.project.$update(function (response) {
+                    $scope.message = 'Changed Priorities';
+                }, function (errorResponse) {
+                    console.log(errorResponse);
+                });
             },
             containment: '#board'
         };
@@ -52,7 +55,6 @@ angular.module('projects').controller('ProjectsController', ['$scope', '$statePa
 
 
             newRoadmap.$save(function (response) {
-                console.log(response);
 
                 $scope.project.roadmaps.push(newRoadmap._id);
                 $scope.project.$update(function (response) {
