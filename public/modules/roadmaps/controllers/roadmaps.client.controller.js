@@ -64,14 +64,16 @@ angular.module('roadmaps').controller('RoadmapsController', ['$scope', '$statePa
 
         };
 
-
+        //
+        //$scope.$watch('roadmap', function(){
+        //    $scope.update();
+        //}, true);
 
         // Update existing Roadmap
         $scope.update = function () {
-            var roadmap = $scope.roadmap;
 
-            roadmap.$update(function () {
-                //$location.path('roadmaps/' + roadmap._id);
+            $scope.roadmap.$update(function () {
+
             }, function (errorResponse) {
                 $scope.error = errorResponse.data.message;
             });
@@ -94,6 +96,86 @@ angular.module('roadmaps').controller('RoadmapsController', ['$scope', '$statePa
             $scope.roadmap = Roadmaps.get({
                 roadmapId: id
             });
+        };
+
+        $scope.run = function () {
+            console.log('running');
+
+            var map = [];
+
+            $scope.roadmap.epics.forEach(function(epic) {
+                map.push({active: false, val:Math.max(0, Math.round($scope.random(epic.estimated, epic.deviation)))});
+            }, this);
+
+
+            var total = 0;
+            map.forEach(function(x) {
+                total += x.val;
+
+            }, this);
+
+
+            map[0].active = true;
+
+            var originals = [];
+            map.forEach(function(item) {
+                originals.push(item.val);
+            });
+
+            var deliveries = [];
+
+
+            for(var i=0; i<total; i++) {
+
+
+                var activeEpics = 0;
+                for(var j=0; j<map.length; j++) {
+                    if(map[j].active) {
+                        activeEpics++;
+                    }
+                }
+
+
+                for(var k=0; k<map.length; k++) {
+                    var item = map[k];
+                    if(item.active) {
+                        item.val -= (1.0 / activeEpics);
+                        if (item.val < 0) {
+                            item.active = false;
+                            deliveries[k] = i;
+                        }
+                        if (item.val < 0.5*originals[k]) {
+                            if (map.length>k+1) {
+                                if(map[k + 1].val > 0) {
+                                    map[k + 1].active = true;
+                                }
+                            }
+                        }
+                    }
+                }
+
+
+
+            }
+
+            console.log(total);
+            console.log(originals);
+            console.log(deliveries);
+
+
+
+
+        };
+
+
+        $scope.random = function (µ, σ) {
+                var x, y, r;
+                do {
+                    x = Math.random() * 2 - 1;
+                    y = Math.random() * 2 - 1;
+                    r = x * x + y * y;
+                } while (!r || r > 1);
+                return µ + σ * x * Math.sqrt(-2 * Math.log(r) / r);
         };
     }
 ]);
