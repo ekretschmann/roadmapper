@@ -30,11 +30,11 @@
                 <div data-as-sortable-item-handle style="padding-left: 10px; padding-top: 5px; padding-bottom: 5px">
                     <a href="" data-ng-click="removeEpic(epic)">
                         <i class="glyphicon glyphicon-minus-sign "></i>
-                        </a>
-                        {{epic}}
-                    </div>
+                    </a>
+                    {{epic}}
                 </div>
             </div>
+        </div>
 
 
     </div>
@@ -51,22 +51,25 @@
                     <i class="glyphicon glyphicon-plus-sign"></i>
                 </a>
             </div>
-        </div>
 
-        <div data-ng-if="project.roadmaps.length === 0">
-            <div class="col-xs-12">
-                There are no roadmaps for this project. Please add one.
-            </div>
-        </div>
 
-        <div data-ng-repeat="map in project.roadmaps">
-
-            <div data-ng-controller="RoadmapsController" data-ng-init="findById(map)">
+            <div data-ng-if="project.roadmaps.length === 0">
                 <div class="col-xs-12">
-                    {{roadmap.name}}
+                    <div class="alert alert-warning" style="margin-top: 10px">
+                        There are no roadmaps for this project. Please add one.
+                    </div>
                 </div>
             </div>
 
+            <div data-ng-repeat="map in project.roadmaps">
+
+                <div data-ng-controller="RoadmapsController" data-ng-init="findById(map)">
+                    <div class="col-xs-12">
+                        {{roadmap.created | date:shortDate}} <a href="/#!/roadmaps/{{roadmap._id}}">{{roadmap.name}}</a>
+                    </div>
+                </div>
+
+            </div>
         </div>
     </div>
 

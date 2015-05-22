@@ -17,6 +17,7 @@ angular.module('projects').controller('ProjectsController', ['$scope', '$statePa
 
             },
             orderChanged: function (event) {
+               // $scope.project.roadmaps = [];
                 $scope.project.$update(function (response) {
                     $scope.message = 'Changed Priorities';
                 }, function (errorResponse) {
@@ -54,6 +55,10 @@ angular.module('projects').controller('ProjectsController', ['$scope', '$statePa
             });
 
 
+            newRoadmap.projectId = $scope.project._id;
+            if ($scope.project) {
+                newRoadmap.epics = $scope.project.epics.slice();
+            }
             newRoadmap.$save(function (response) {
 
                 $scope.project.roadmaps.push(newRoadmap._id);

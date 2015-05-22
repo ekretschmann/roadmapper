@@ -6,6 +6,7 @@
 var mongoose = require('mongoose'),
 	errorHandler = require('./errors.server.controller'),
 	Roadmap = mongoose.model('Roadmap'),
+	Project = mongoose.model('Project'),
 	_ = require('lodash');
 
 /**
@@ -58,12 +59,29 @@ exports.update = function(req, res) {
 exports.delete = function(req, res) {
 	var roadmap = req.roadmap ;
 
+	// remove reference from roadmap project
+	Project.findById(roadmap.projectId).exec(function(err, project) {
+
+		project.roadmaps.splice(project.roadmaps.indexOf(roadmap._id), 1);
+		project.save(function(err) {
+			if (err) {
+				return res.status(400).send({
+					message: errorHandler.getErrorMessage(err)
+				});
+			}
+		});
+	});
+
+
 	roadmap.remove(function(err) {
 		if (err) {
 			return res.status(400).send({
 				message: errorHandler.getErrorMessage(err)
 			});
 		} else {
+
+
+
 			res.jsonp(roadmap);
 		}
 	});
