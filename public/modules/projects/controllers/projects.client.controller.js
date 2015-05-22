@@ -54,10 +54,16 @@ angular.module('projects').controller('ProjectsController', ['$scope', '$statePa
                 name: $scope.roadmapName
             });
 
-
             newRoadmap.projectId = $scope.project._id;
             if ($scope.project) {
-                newRoadmap.epics = $scope.project.epics.slice();
+                newRoadmap.epics = [];
+                $scope.project.epics.forEach(function(epic){
+
+
+                    newRoadmap.epics.push({name: epic, estimated: 0, deviation: 0});
+                });
+
+
             }
             newRoadmap.$save(function (response) {
 

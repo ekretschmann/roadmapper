@@ -5,6 +5,39 @@ angular.module('roadmaps').controller('RoadmapsController', ['$scope', '$statePa
     function ($scope, $stateParams, $location, Authentication, Roadmaps) {
         $scope.authentication = Authentication;
 
+        $scope.epicName = '';
+
+
+        $scope.dragControlListeners = {
+            accept: function (sourceItemHandleScope, destSortableScope) {
+                return true;
+            },
+            itemMoved: function (event) {
+
+            },
+            orderChanged: function (event) {
+                // $scope.project.roadmaps = [];
+                $scope.roadmap.$update(function (response) {
+                    $scope.message = 'Changed Priorities';
+                }, function (errorResponse) {
+                    console.log(errorResponse);
+                });
+            },
+            containment: '#board'
+        };
+
+
+        $scope.addEpic = function () {
+
+            $scope.roadmap.epics.push({name: $scope.epicName, estimated: 0, deviation: 0});
+            $scope.roadmap.$update(function (response) {
+                $scope.epicName = '';
+            }, function (errorResponse) {
+                console.log(errorResponse);
+            });
+        };
+
+
         // Create new Roadmap
         $scope.create = function () {
             // Create new Roadmap object
@@ -31,29 +64,14 @@ angular.module('roadmaps').controller('RoadmapsController', ['$scope', '$statePa
 
         };
 
-        //// Remove existing Roadmap
-        //$scope.remove = function(roadmap) {
-        //	if ( roadmap ) {
-        //		roadmap.$remove();
-        //
-        //		for (var i in $scope.roadmaps) {
-        //			if ($scope.roadmaps [i] === roadmap) {
-        //				$scope.roadmaps.splice(i, 1);
-        //			}
-        //		}
-        //	} else {
-        //		$scope.roadmap.$remove(function() {
-        //			$location.path('roadmaps');
-        //		});
-        //	}
-        //};
+
 
         // Update existing Roadmap
         $scope.update = function () {
             var roadmap = $scope.roadmap;
 
             roadmap.$update(function () {
-                $location.path('roadmaps/' + roadmap._id);
+                //$location.path('roadmaps/' + roadmap._id);
             }, function (errorResponse) {
                 $scope.error = errorResponse.data.message;
             });

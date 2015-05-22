@@ -25,7 +25,22 @@ var RoadmapSchema = new Schema({
         ref: 'User'
     },
     epics: {
-        type: [String],
+        type: [{
+            name: {
+                type: String,
+                default: '',
+                required: 'Please fill Reward name',
+                trim: true
+            },
+            estimated: {
+                type: Number,
+                default: 0
+            },
+            deviation: {
+                type: Number,
+                default: 0
+            }
+        }],
         default: []
     },
     projectId: {
