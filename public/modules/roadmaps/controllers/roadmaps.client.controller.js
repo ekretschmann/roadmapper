@@ -1,8 +1,8 @@
 'use strict';
 
 // Roadmaps controller
-angular.module('roadmaps').controller('RoadmapsController', ['$scope', '$stateParams', '$location', 'Authentication', 'Roadmaps',
-    function ($scope, $stateParams, $location, Authentication, Roadmaps) {
+angular.module('roadmaps').controller('RoadmapsController', ['$scope', '$stateParams', '$location', 'Authentication', 'Roadmaps', 'Projects',
+    function ($scope, $stateParams, $location, Authentication, Roadmaps, Projects) {
         $scope.authentication = Authentication;
 
         $scope.epicName = '';
@@ -88,6 +88,10 @@ angular.module('roadmaps').controller('RoadmapsController', ['$scope', '$statePa
         $scope.findOne = function () {
             $scope.roadmap = Roadmaps.get({
                 roadmapId: $stateParams.roadmapId
+            }, function() {
+                $scope.project = Projects.get({
+                   projectId: $scope.roadmap.projectId
+                });
             });
         };
 
