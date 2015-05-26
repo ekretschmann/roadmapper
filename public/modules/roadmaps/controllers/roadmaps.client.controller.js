@@ -56,6 +56,17 @@ angular.module('roadmaps').controller('RoadmapsController', ['$scope', '$statePa
             });
         };
 
+
+        $scope.removeEpic = function(removedEpic) {
+            for (var i=0; i<$scope.roadmap.epics.length; i++) {
+                var epic = $scope.roadmap.epics[i];
+                if(removedEpic._id === epic._id) {
+                    $scope.roadmap.epics.splice(i, i);
+                }
+            }
+            $scope.roadmap.$update();
+        };
+
         $scope.remove = function () {
             var projectId = $scope.roadmap.projectId;
             $scope.roadmap.$remove(function () {
