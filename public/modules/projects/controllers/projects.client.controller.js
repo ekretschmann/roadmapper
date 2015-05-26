@@ -69,13 +69,16 @@ angular.module('projects').controller('ProjectsController', ['$scope', '$statePa
 
                 $scope.project.roadmaps.push(newRoadmap._id);
                 $scope.project.$update(function (response) {
-                    console.log(response);
+                    $scope.roadmapName = '';
+                    //console.log(response);
                 }, function (errorResponse) {
                     console.log(errorResponse);
                 });
             }, function (errorResponse) {
                 console.log(errorResponse);
             });
+
+
 
         };
 
