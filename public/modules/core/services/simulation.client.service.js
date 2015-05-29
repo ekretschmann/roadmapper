@@ -1,6 +1,6 @@
 'use strict';
 
-//Menu service used for managing  menus
+/* global moment */
 angular.module('core').service('SimulationService', [
 	function() {
 
@@ -8,20 +8,34 @@ angular.module('core').service('SimulationService', [
 		this.data = [];
 		this.rows = 0;
 		this.cols = 0;
+		this.rowLabels = [];
+		this.colLabels = [];
+		this.start = Date.now();
 
-		this.run = function (epics) {
+		this.run = function (roadmap) {
 
+
+			this.start = roadmap.start;
+
+			var epics = roadmap.epics;
+			var overlap = 0.5;
 			var result = [];
 			for(var x=0; x<1000;x++) {
 				var map = [];
+
 
 				for(var j=0; j<epics.length;j++) {
 					var epic= epics[j];
 					map.push({
 						active: false,
-						val: Math.max(1, Math.round(this.random(epic.estimated, epic.deviation)))
+						val: Math.max(1, this.random(epic.estimated, epic.deviation))
 					});
+
+					//console.log(map[j].val);
 				}
+
+
+
 
 
 				var total = 0;
@@ -57,7 +71,7 @@ angular.module('core').service('SimulationService', [
 								item.active = false;
 								deliveries[k] = i;
 							}
-							if (item.val < 0.5 * originals[k]) {
+							if (item.val < overlap * originals[k]) {
 								if (map.length > k + 1) {
 									if (map[k + 1].val > 0) {
 										map[k + 1].active = true;
@@ -84,43 +98,61 @@ angular.module('core').service('SimulationService', [
 			}
 
 
+
+
 			var data = [];
 			var maxRow = 0;
 			var maxCol = 0;
+
 			Object.keys(result).forEach(function(key) {
 				var row = key.split('-')[0];
 				var col = key.split('-')[1];
+
+				console.log(col);
 
 				if(row > maxRow) {
 					maxRow = row;
 				}
 
-				if(col > maxCol) {
+				if(parseInt(col) > maxCol) {
 					maxCol = col;
 				}
 				data.push({score: result[key], row: row, col: col});
-
-
 			});
 
-			//console.log(data);
+
+
+
+
+			this.colLabels = [];
+			var date = moment(roadmap.start);
+			for (var d = 0; d < maxCol; d++) {
+
+				date.add(1, 'days');
+				if (d%14 === 0) {
+
+
+
+					this.colLabels.push(date.format('D/MM'));
+
+
+				} else {
+					this.colLabels.push('');
+				}
+			}
 
 
 			this.data = data;
 
-			//$scope.data = [
-			//    {score: 5, row: 0, col: 0},
-			//    {score: 7, row: 0, col: 1},
-			//    //{score: 0.2, row: 1, col: 0},
-			//    {score: 4, row: 1, col: 1},
-			//    {score: 3, row: 2, col: 0},
-			//    {score: 5, row: 2, col: 1},
-			//    {score: 2, row: 3, col: 5},
-			//    {score: 7, row: 3, col: 1}
-			//];
 
 			this.cols = maxCol;
 			this.rows = maxRow;
+
+
+			this.rowLabels = [];
+			epics.forEach(function(epic) {
+				this.rowLabels.push(epic.name);
+			}, this);
 
 			this.toggle = !this.toggle;
 

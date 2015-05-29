@@ -35,10 +35,44 @@
     </div>
 
 
+
+
     <div data-ng-if="heatmapVisible">
 
+        <style>
+            #tooltip {
+                position: absolute;
+                width: 200px;
+                height: auto;
+                padding: 10px;
+                background-color: white;
+                -webkit-border-radius: 10px;
+                -moz-border-radius: 10px;
+                border-radius: 10px;
+                -webkit-box-shadow: 4px 4px 10px rgba(0, 0, 0, 0.4);
+                -moz-box-shadow: 4px 4px 10px rgba(0, 0, 0, 0.4);
+                box-shadow: 4px 4px 10px rgba(0, 0, 0, 0.4);
+                pointer-events: none;
+            }
+
+            #tooltip.hidden {
+                display: none;
+            }
+
+            #tooltip p {
+                margin: 0;
+                font-family: sans-serif;
+                font-size: 12px;
+                line-height: 20px;
+            }
+        </style>
+
+        <div id="tooltip" class="hidden">
+            <p><span id="value"/></p>
+        </div>
+
         <!--<div id='heatmap' data-ng-controller="HeatmapController" data-ng-init="init(data, cols, rows)">-->
-        <div id='heatmap' data-ng-controller="HeatmapController" >
+        <div id='heatmap' data-ng-controller="HeatmapController">
 
 
         </div>
@@ -49,28 +83,67 @@
 
 
         <form ng-submit="addEpic()">
-            <label>Add a new Epic</label>
 
-            <div>
-                <form class="form-inline">
-                    <div class="form-group">
 
-                        <div class="input-group">
-                            <!--<div class="input-group-addon">$</div>-->
-                            <input type="text" data-ng-model="epicName" style="height:48px;" class="form-control"
-                                   id="exampleInputAmount" placeholder="Epic">
+            <div class="row">
+                <div class="col-xs-6">
+                    <!--<label>Add a new Epic</label>-->
 
-                            <div class="input-group-addon"><a class="btn btn-primary" href=""
-                                                              data-ng-click="addEpic()">
-                                <i class="glyphicon glyphicon-plus-sign"></i>
-                            </a></div>
+                    <!--<form class="form-inline">-->
+                        <div class="form-group">
+
+                            <div class="input-group">
+                                <div class="input-group-addon">Add Epic</div>
+                                <input type="text" data-ng-model="epicName" style="height:48px;" class="form-control"
+                                       placeholder="Epic">
+
+                                <div class="input-group-addon"><a class="btn btn-primary" href=""
+                                                                  data-ng-click="addEpic()">
+                                    <i class="glyphicon glyphicon-plus-sign"></i>
+                                </a></div>
+
+                            </div>
+
 
                         </div>
 
+                    <!--</form>-->
 
-                    </div>
 
-                </form>
+                </div>
+
+
+                <div class="col-xs-6">
+
+
+                        <div class="form-group">
+
+
+                                <div class="input-group">
+                                    <input type="text" style="height:48px;" class="form-control" is-open="datePickerOpen" datepicker-popup="{{format}}" ng-model="roadmap.start"  ng-required="true" close-text="Close" />
+              <span class="input-group-btn">
+                <button style="height:48px;" type="button" class="btn btn-default" ng-click="openDatePicker($event)"><i class="glyphicon glyphicon-calendar"></i></button>
+              </span>
+                                </div>
+
+
+
+                        </div>
+
+                    <!--</form>-->
+
+
+                    <!--<label>Project Starts at: </label>-->
+                    <!--<form class="form-inline">-->
+                        <!--<div class="form-group">-->
+
+                            <!--<div class="input-group">-->
+                    <!--<input type="date" id="exampleInput" name="input" ng-model="example.value" class="form-control"-->
+                           <!--placeholder="yyyy-MM-dd" required/>-->
+                                <!--</div>-->
+                            <!--</div>-->
+                        <!--</form>-->
+                </div>
             </div>
 
             <div class="row" data-ng-if="project.epics.length === 0">

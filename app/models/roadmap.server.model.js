@@ -24,6 +24,10 @@ var RoadmapSchema = new Schema({
         type: Schema.ObjectId,
         ref: 'User'
     },
+    start: {
+        type: Date,
+        default: Date.now
+    },
     epics: {
         type: [{
             name: {
