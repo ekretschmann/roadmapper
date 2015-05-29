@@ -115,7 +115,7 @@ angular.module('core').service('SimulationService', [
 
         this.runSimulation = function (epics) {
 
-            var overlap = 0.5;
+            var overlap = 0.3;
             var result = [];
             for (var x = 0; x < 10000; x++) {
                 var map = [];
