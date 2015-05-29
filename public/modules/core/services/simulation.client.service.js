@@ -54,7 +54,7 @@ angular.module('core').service('SimulationService', [
                 for (var l=0; l<rows[dataPoint.row].length; l++) {
 
                     if (rows[dataPoint.row][l].col === dataPoint.col) {
-                        dataPoint.probability = rows[dataPoint.row][l].probability;
+                        dataPoint.probability = Math.round(rows[dataPoint.row][l].probability*100)+'%';
                     }
                 }
             }

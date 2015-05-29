@@ -10,7 +10,7 @@ angular.module('core').controller('HeatmapController', ['$scope', 'Authenticatio
 
         $scope.col_number = 2;
         $scope.row_number = 3;
-        $scope.cellSize = 4;
+        $scope.cellSize = 6;
 
         $scope.labelWidth = 100;
 
@@ -29,6 +29,7 @@ angular.module('core').controller('HeatmapController', ['$scope', 'Authenticatio
             var data = d3data.data;
             var cols = d3data.cols;
             var rows = d3data.rows;
+            //$scope.cellSize = Math.floor(720 / d3data.cols);
             var rowLabels = d3data.rowLabels;
             var colLabels = d3data.colLabels;
             var start = d3data.start;
