@@ -11,8 +11,6 @@ angular.module('core').controller('HeatmapController', ['$scope', 'Authenticatio
         $scope.col_number = 2;
         $scope.row_number = 3;
         $scope.cellSize = 4;
-        //$scope.svg = undefined;
-        $scope.first = true;
 
         $scope.labelWidth = 100;
 
@@ -21,11 +19,20 @@ angular.module('core').controller('HeatmapController', ['$scope', 'Authenticatio
             return SimulationService.toggle;
         }, function (newValue, oldValue) {
 
-            $scope.init(SimulationService.data, SimulationService.cols, SimulationService.rows, SimulationService.rowLabels, SimulationService.colLabels, SimulationService.start);
+            $scope.init(SimulationService.d3Data);
         });
 
 
-        $scope.init = function (data, cols, rows, rowLabels, colLabels, start) {
+        $scope.init = function (d3data) {
+
+
+            var data = d3data.data;
+            var cols = d3data.cols;
+            var rows = d3data.rows;
+            var rowLabels = d3data.rowLabels;
+            var colLabels = d3data.colLabels;
+            var start = d3data.start;
+
 
             var max = data[0].score;
 

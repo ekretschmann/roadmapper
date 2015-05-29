@@ -5,19 +5,101 @@ angular.module('core').service('SimulationService', [
 	function() {
 
 		this.toggle = false;
-		this.data = [];
-		this.rows = 0;
-		this.cols = 0;
-		this.rowLabels = [];
-		this.colLabels = [];
-		this.start = Date.now();
+		//this.data = [];
+		//this.rows = 0;
+		//this.cols = 0;
+		//this.rowLabels = [];
+		//this.colLabels = [];
+		//this.start = Date.now();
+
+		this.d3Data = {};
 
 		this.run = function (roadmap) {
 
 
-			this.start = roadmap.start;
 
-			var epics = roadmap.epics;
+			this.d3Data = this.transformToD3Format(this.runSimulation(roadmap.epics));
+			this.d3Data.start = roadmap.start;
+
+
+
+			//var rows = [];
+			//for (i=0;i<maxRow;i++) {
+			//	rows[i] = [];
+			//	var total = 0;
+			//	data.forEach(function(item) {
+			//		if (parseInt(item.row) === i) {
+			//			rows[i].push({score: item.score, col:item.col});
+			//			total += item.score;
+			//		}
+			//	});
+			//
+			//	rows[i].sort(function(a, b) {
+			//		return a.col - b.col;
+			//	});
+			//
+			//	console.log(total);
+			//	//console.log(rows[i]);
+			//}
+
+
+
+
+			this.populateColLabels(this.d3Data, roadmap.start);
+			this.populateRowLabels(roadmap.epics);
+			this.toggle = !this.toggle;
+
+
+		};
+
+		this.populateRowLabels = function(epics) {
+			var rowLabels = [];
+			epics.forEach(function(epic) {
+				rowLabels.push(epic.name);
+			}, this);
+
+			this.d3Data.rowLabels = rowLabels;
+		};
+
+		this.populateColLabels = function(d3Data, startDate) {
+			var colLabels = [];
+			var date = moment(startDate);
+			for (var d = 0; d < d3Data.cols; d++) {
+				date.add(1, 'days');
+				if (d%14 === 0) {
+					colLabels.push(date.format('D/MM'));
+				} else {
+					colLabels.push('');
+				}
+			}
+			this.d3Data.colLabels = colLabels;
+		};
+
+		this.transformToD3Format = function(rawData) {
+			var data = [];
+			var maxRow = 0;
+			var maxCol = 0;
+
+			Object.keys(rawData).forEach(function(key) {
+				var row = key.split('-')[0];
+				var col = key.split('-')[1];
+
+
+				if(row > maxRow) {
+					maxRow = row;
+				}
+
+				if(parseInt(col) > maxCol) {
+					maxCol = col;
+				}
+				data.push({score: rawData[key], row: row, col: col});
+			});
+			return {rows: maxRow, cols: maxCol, data:data};
+		};
+
+
+		this.runSimulation = function(epics) {
+
 			var overlap = 0.5;
 			var result = [];
 			for(var x=0; x<1000;x++) {
@@ -31,12 +113,7 @@ angular.module('core').service('SimulationService', [
 						val: Math.max(1, this.random(epic.estimated, epic.deviation))
 					});
 
-					//console.log(map[j].val);
 				}
-
-
-
-
 
 				var total = 0;
 				var originals = [];
@@ -97,67 +174,9 @@ angular.module('core').service('SimulationService', [
 				}
 			}
 
-
-
-
-			var data = [];
-			var maxRow = 0;
-			var maxCol = 0;
-
-			Object.keys(result).forEach(function(key) {
-				var row = key.split('-')[0];
-				var col = key.split('-')[1];
-
-				console.log(col);
-
-				if(row > maxRow) {
-					maxRow = row;
-				}
-
-				if(parseInt(col) > maxCol) {
-					maxCol = col;
-				}
-				data.push({score: result[key], row: row, col: col});
-			});
-
-
-
-
-
-			this.colLabels = [];
-			var date = moment(roadmap.start);
-			for (var d = 0; d < maxCol; d++) {
-
-				date.add(1, 'days');
-				if (d%14 === 0) {
-
-
-
-					this.colLabels.push(date.format('D/MM'));
-
-
-				} else {
-					this.colLabels.push('');
-				}
-			}
-
-
-			this.data = data;
-
-
-			this.cols = maxCol;
-			this.rows = maxRow;
-
-
-			this.rowLabels = [];
-			epics.forEach(function(epic) {
-				this.rowLabels.push(epic.name);
-			}, this);
-
-			this.toggle = !this.toggle;
-
-
+			return result;
 		};
+
 
 		this.random = function (µ, σ) {
 			var x, y, r;
