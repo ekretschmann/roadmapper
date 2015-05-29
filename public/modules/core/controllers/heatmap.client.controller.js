@@ -110,7 +110,7 @@ angular.module('core').controller('HeatmapController', ['$scope', 'Authenticatio
                         .style('left', (d3.event.pageX+10) + 'px')
                         .style('top', (d3.event.pageY-10) + 'px')
                         .select('#value')
-                        .text(d.date+'\n'+ d.score);
+                        .text(d.date+'\n'+ d.probability);
                     //Show the tooltip
                     d3.select('#tooltip').classed('hidden', false);
                 })
