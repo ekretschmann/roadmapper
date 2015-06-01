@@ -10,6 +10,7 @@ angular.module('core').service('SimulationService', [
         this.run = function (roadmap) {
 
 
+
             this.d3Data = this.transformToD3Format(this.runSimulation(roadmap.epics));
             this.d3Data.start = roadmap.start;
 
@@ -35,7 +36,7 @@ angular.module('core').service('SimulationService', [
                     return a.col - b.col;
                 });
 
-               // console.log(total);
+                // console.log(total);
 
                 //console.log(rows[i]);
                 var current = 0;
@@ -51,12 +52,13 @@ angular.module('core').service('SimulationService', [
             for (var k = 0; k < this.d3Data.data.length; k++) {
 
                 var dataPoint = this.d3Data.data[k];
-                for (var l=0; l<rows[dataPoint.row].length; l++) {
+                    for (var l = 0; l < rows[dataPoint.row].length; l++) {
 
-                    if (rows[dataPoint.row][l].col === dataPoint.col) {
-                        dataPoint.probability = Math.round(rows[dataPoint.row][l].probability*100)+'%';
+                        if (rows[dataPoint.row][l].col === dataPoint.col) {
+                            dataPoint.probability = Math.round(rows[dataPoint.row][l].probability * 100) + '%';
+                        }
                     }
-                }
+
             }
 
 
@@ -100,7 +102,7 @@ angular.module('core').service('SimulationService', [
                 var col = key.split('-')[1];
 
 
-                if (row > maxRow) {
+                if (parseInt(row) > maxRow) {
                     maxRow = row;
                 }
 

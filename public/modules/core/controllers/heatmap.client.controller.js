@@ -59,7 +59,7 @@ angular.module('core').controller('HeatmapController', ['$scope', 'Authenticatio
                 w = $scope.cellSize,
                 rectPadding = 60;
 
-            var colorLow = '#FFFFFF', colorMed = '#99FF99', colorHigh = '#00FF00';
+            var colorLow = '#FFFFFF', colorMed = '#33FF33', colorHigh = '#00FF00';
 
             var margin = {top: 20, right: 80, bottom: 30, left: 50},
                 width = 2 * cols * $scope.cellSize,
