@@ -76,10 +76,11 @@ angular.module('roadmaps').controller('RoadmapsController', ['$scope', '$state',
             for (var i=0; i<$scope.roadmap.epics.length; i++) {
                 var epic = $scope.roadmap.epics[i];
                 if(removedEpic._id === epic._id) {
-                    $scope.roadmap.epics.splice(i, i);
+                    $scope.roadmap.epics.splice(i, 1);
                 }
             }
-            $scope.roadmap.$update();
+            console.log($scope.roadmap.epics);
+           $scope.roadmap.$update();
         };
 
         $scope.remove = function () {
