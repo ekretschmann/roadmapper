@@ -159,11 +159,11 @@
 
 
         <div data-as-sortable="dragControlListeners" data-ng-model="roadmap.epics" style="margin-top: 10px">
-            <div class="row draggable" data-ng-repeat="epic in roadmap.epics" data-as-sortable-item>
-                <div data-as-sortable-item-handle style="padding-left: 10px; padding-top: 5px; padding-bottom: 5px">
+            <div data-as-sortable-item data-ng-repeat="epic in roadmap.epics" >
+                <div class="row draggable" data-as-sortable-item-handle>
 
 
-                    <div class="col-xs-4" style="padding-top:10px">
+                    <div class="col-xs-4" style="padding-top:10px; padding-left: 35px">
 
 
                         <div class="form-group">
@@ -205,7 +205,7 @@
                     </div>
 
 
-                    <div class="col-xs-4" style="padding-top:10px">
+                    <div class="col-xs-4" style="padding-top:10px; padding-right: 25px">
                         <div class="input-group">
                             <div class="input-group-addon">Deviation [days]</div>
                             <input type="text" data-ng-model="epic.deviation" style="height:48px;" class="form-control"

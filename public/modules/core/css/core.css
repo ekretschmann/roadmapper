@@ -15,9 +15,9 @@
 /*}*/
 
 .draggable {
-	background-image: url('/modules/core/img/brand/draggable-icon.jpg');
+	/*background-color: red;*/
+	background-image: url('/modules/core/img/brand/draggable-icon.png');
 	background-repeat: no-repeat;
-	/*background-attachment: fixed;*/
-	background-position: -5px 24px;
+	background-position: 15px 24px;
 }
 
