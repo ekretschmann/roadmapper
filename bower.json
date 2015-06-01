@@ -15,7 +15,8 @@
     "angular-ui-utils": "~0.1.1",
     "angular-ui-router": "~0.2.11",
     "ng-sortable": "1.2.2",
-    "moment": "~2.10.3"
+    "moment": "~2.10.3",
+    "d3": "3.3.10"
   },
   "resolutions": {
     "angular": "1.4.0"
