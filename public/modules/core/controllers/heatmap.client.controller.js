@@ -59,7 +59,7 @@ angular.module('core').controller('HeatmapController', ['$scope', 'Authenticatio
                 w = $scope.cellSize,
                 rectPadding = 60;
 
-            var colorLow = '#FFFFFF', colorMed = '#33FF33', colorHigh = '#00FF00';
+            var colorLow = '#FFFFFF', colorMed = '#339933', colorHigh = '#009900';
 
             var margin = {top: 20, right: 80, bottom: 30, left: 50},
                 width = 2 * cols * $scope.cellSize,
@@ -99,6 +99,10 @@ angular.module('core').controller('HeatmapController', ['$scope', 'Authenticatio
                     return h;
                 })
                 .style('fill', function (d) {
+                    //console.log(d);
+                    if (d.expectedDeliveryDate) {
+                        return '#990000';
+                    }
                     return colorScale(d.score);
                 }).on('mouseover', function (d) {
                     //highlight text

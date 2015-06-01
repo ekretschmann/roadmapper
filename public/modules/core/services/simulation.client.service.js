@@ -36,16 +36,20 @@ angular.module('core').service('SimulationService', [
                     return a.col - b.col;
                 });
 
-                // console.log(total);
-
-                //console.log(rows[i]);
                 var current = 0;
+                var firstTime = true;
                 for (j = 0; j < rows[i].length; j++) {
                     var point = rows[i][j];
-                    //console.log(point);
                     current += point.score;
                     point.probability = current / total;
-                    //console.log(this.d3Data.data[i+'-'+j].score);
+                    if (point.probability > 0.5 && firstTime) {
+
+                        point.expectedDeliveryDate = true;
+                        firstTime = false;
+                    } else {
+                        point.expectedDeliveryDate = false;
+
+                    }
                 }
             }
 
@@ -56,6 +60,7 @@ angular.module('core').service('SimulationService', [
 
                         if (rows[dataPoint.row][l].col === dataPoint.col) {
                             dataPoint.probability = Math.round(rows[dataPoint.row][l].probability * 100) + '%';
+                            dataPoint.expectedDeliveryDate = rows[dataPoint.row][l].expectedDeliveryDate;
                         }
                     }
 
