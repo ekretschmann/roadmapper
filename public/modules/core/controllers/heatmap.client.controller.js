@@ -100,8 +100,8 @@ angular.module('core').controller('HeatmapController', ['$scope', 'Authenticatio
                 })
                 .style('fill', function (d) {
                     //console.log(d);
-                    if (d.expectedDeliveryDate) {
-                        return '#990000';
+                    if (d.expectedDeliveryDateEarly || d.expectedDeliveryDateLate) {
+                        return '#FFFF00';
                     }
                     return colorScale(d.score);
                 }).on('mouseover', function (d) {

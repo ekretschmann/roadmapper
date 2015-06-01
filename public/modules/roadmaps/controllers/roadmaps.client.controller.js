@@ -79,7 +79,6 @@ angular.module('roadmaps').controller('RoadmapsController', ['$scope', '$state',
                     $scope.roadmap.epics.splice(i, 1);
                 }
             }
-            console.log($scope.roadmap.epics);
            $scope.roadmap.$update();
         };
 
