@@ -1,44 +1,87 @@
 <section data-ng-controller="HomeController">
-	<div class="jumbotron text-center" ng-if="!authentication.user">
-		<div class="row">
-			<div class="col-md-6 col-md-offset-3 col-sm-6 col-sm-offset-3 col-xs-12">
-				 Logo
-			</div>
-		</div>
-		<br>
-		<div class="row">
-			<p class="lead">
-				Roadmapper
-			</p>
-		</div>
-		<div class="row">
-				More info
-		</div>
-	</div>
-	<div data-ng-if="authentication.user" data-ng-controller="ProjectsController" data-ng-init="find()" >
+    <div class="jumbotron text-center" ng-if="!authentication.user">
+        <div class="row">
+            <div class="col-md-6 col-md-offset-3 col-sm-6 col-sm-offset-3 col-xs-12">
+                Logo
+            </div>
+        </div>
+        <br>
 
-		<div data-ng-if="projects.length > 0">
-
-			<h2>Your Projects</h2>
-
-			<div class="row" data-ng-repeat="project in projects">
-
-				<div class="col-lg-6">
-					<a href="/#!/projects/{{project._id}}">{{project.name}}</a>
-				</div>
-				<div class="col-lg-3">
-					some description
-				</div>
-
-				<div class="col-lg-3">
-					maybe creation date
-				</div>
+        <div class="row">
+            <p class="lead">
+                Roadmapper
+            </p>
+        </div>
+        <div class="row">
+            More info
+        </div>
+    </div>
+    <div data-ng-if="authentication.user" data-ng-controller="ProjectsController" data-ng-init="find()">
 
 
-			</div>
-		</div>
-		<div data-ng-if="projects.length === 0">
-			You have to create a project
-		</div>
-	</div>
+
+        <div class="pull-right">
+                <form class="form-inline" ng-submit="create()">
+                    <div class="form-group">
+                        <div class="input-group">
+                            <!--<label class="control-label" for="name">Name</label>-->
+                            <!--<div class="controls">-->
+                            <input type="text" style="height:48px;" data-ng-model="name" id="name" class="form-control"
+                                   placeholder="Create new project"
+                                   required>
+                            <!--</div>-->
+
+                            <div class="input-group-addon"><a class="btn btn-primary" href=""
+                                                              data-ng-click="create()">
+                                <i class="glyphicon glyphicon-plus-sign"></i>
+                            </a>
+                            </div>
+                        </div>
+                    </div>
+                </form>
+
+        </div>
+
+        <h2>Your Projects</h2>
+
+
+        <div data-ng-if="projects.length > 0" style="padding-top: 20px">
+
+
+            <div class="row" >
+
+                <div class="col-xs-3">
+                    <label>Project</label>
+                </div>
+                <!--<div class="col-lg-3">-->
+                <!--some description-->
+                <!--</div>-->
+
+                <div class="col-xs-3">
+                    <label>Created</label>
+                </div>
+
+
+            </div>
+
+
+            <div class="row" data-ng-repeat="project in projects">
+
+                <div class="col-xs-3">
+                    <a href="/#!/projects/{{project._id}}">{{project.name}}</a>
+                </div>
+                <!--<div class="col-lg-3">-->
+                    <!--some description-->
+                <!--</div>-->
+
+                <div class="col-xs-3">
+                    {{project.created | date:'shortDate'}}
+                </div>
+
+
+            </div>
+        </div>
+
+
+    </div>
 </section>

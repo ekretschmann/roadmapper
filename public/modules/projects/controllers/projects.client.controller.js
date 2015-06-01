@@ -92,9 +92,9 @@ angular.module('projects').controller('ProjectsController', ['$scope', '$statePa
 
             // Redirect after save
             project.$save(function (response) {
-                $location.path('projects/' + response._id);
 
                 // Clear form fields
+                $scope.projects.push(response);
                 $scope.name = '';
             }, function (errorResponse) {
                 $scope.error = errorResponse.data.message;
@@ -113,7 +113,7 @@ angular.module('projects').controller('ProjectsController', ['$scope', '$statePa
                 }
             } else {
                 $scope.project.$remove(function () {
-                    $location.path('projects');
+                    $location.path('/');
                 });
             }
         };
