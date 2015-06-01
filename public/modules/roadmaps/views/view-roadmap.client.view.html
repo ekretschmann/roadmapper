@@ -70,7 +70,8 @@
         </div>
 
         <!--<div id='heatmap' data-ng-controller="HeatmapController" data-ng-init="init(data, cols, rows)">-->
-        <div id='heatmap' data-ng-controller="HeatmapController" style="border: 1px solid black; padding: 10px; overflow: scroll">
+        <div id='heatmap' data-ng-controller="HeatmapController"
+             style="border: 1px solid black; padding: 10px; overflow: scroll">
 
 
         </div>
@@ -118,6 +119,7 @@
 
 
                         <div class="input-group">
+                            <div class="input-group-addon">Start Date</div>
                             <input type="text" style="height:48px;" class="form-control" is-open="datePickerOpen"
                                    datepicker-popup="{{format}}" ng-model="roadmap.start" ng-required="true"
                                    close-text="Close"/>
@@ -130,19 +132,7 @@
 
                     </div>
 
-                    <!--</form>-->
 
-
-                    <!--<label>Project Starts at: </label>-->
-                    <!--<form class="form-inline">-->
-                    <!--<div class="form-group">-->
-
-                    <!--<div class="input-group">-->
-                    <!--<input type="date" id="exampleInput" name="input" ng-model="example.value" class="form-control"-->
-                    <!--placeholder="yyyy-MM-dd" required/>-->
-                    <!--</div>-->
-                    <!--</div>-->
-                    <!--</form>-->
                 </div>
             </div>
 
@@ -169,40 +159,66 @@
 
 
         <div data-as-sortable="dragControlListeners" data-ng-model="roadmap.epics" style="margin-top: 10px">
-            <div class="row" data-ng-repeat="epic in roadmap.epics" data-as-sortable-item>
+            <div class="row draggable" data-ng-repeat="epic in roadmap.epics" data-as-sortable-item>
                 <div data-as-sortable-item-handle style="padding-left: 10px; padding-top: 5px; padding-bottom: 5px">
 
-                    <div class="col-xs-1" style="padding-top: 15px">
-                        <a href="" data-ng-click="removeEpic(epic)">
-                            <i class="glyphicon glyphicon-minus-sign "></i>
-                        </a>
+
+                    <div class="col-xs-4" style="padding-top:10px">
+
+
+                        <div class="form-group">
+
+                            <div class="input-group">
+                                <div class="input-group-addon">Name</div>
+                                <input type="text" data-ng-model="epic.name" style="height:48px;" class="form-control"
+                                       placeholder="Epic">
+
+                                <div class="input-group-addon"><a href="" data-ng-click="removeEpic(epic)">
+                                    <i class="glyphicon glyphicon-minus-sign "></i>
+                                </a></div>
+
+                            </div>
+
+
+                        </div>
 
 
                     </div>
 
-                    <div class="col-xs-3" style="margin-top: 10px; margin-bottom: 10px">
-                        <input class="form-control" type="text" data-ng-model="epic.name">
+                    <div class="col-xs-4" style="padding-top:10px">
+
+                        <div class="form-group">
+
+                            <div class="input-group">
+                                <div class="input-group-addon">Estimated Duration [days]</div>
+                                <input type="text" data-ng-model="epic.estimated" style="height:48px;"
+                                       class="form-control"
+                                       placeholder="Epic">
+
+
+                            </div>
+
+
+                        </div>
+
+
                     </div>
 
-                    <div class="col-xs-1" style="padding-top: 15px;">
-                        Est:
+
+                    <div class="col-xs-4" style="padding-top:10px">
+                        <div class="input-group">
+                            <div class="input-group-addon">Deviation [days]</div>
+                            <input type="text" data-ng-model="epic.deviation" style="height:48px;" class="form-control"
+                                   placeholder="Epic">
+
+
+                        </div>
                     </div>
 
-                    <div class="col-xs-3" style="margin-top: 10px; margin-bottom: 10px">
-                        <input class="form-control" type="number" data-ng-model="epic.estimated">
-                    </div>
 
-                    <div class="col-xs-1" style="padding-top: 15px;">
-                        Deviation:
-                    </div>
-
-                    <div class="col-xs-3" style="margin-top: 10px; margin-bottom: 10px">
-                        <input class="form-control" type="number" data-ng-model="epic.deviation">
-                    </div>
                 </div>
             </div>
-
-
         </div>
+    </div>
 
 </section>

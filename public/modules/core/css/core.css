@@ -13,3 +13,11 @@
 /*.ng-valid.ng-dirty {*/
 	/*border-color: #78FA89;*/
 /*}*/
+
+.draggable {
+	background-image: url('/modules/core/img/brand/draggable-icon.jpg');
+	background-repeat: no-repeat;
+	/*background-attachment: fixed;*/
+	background-position: -5px 24px;
+}
+
