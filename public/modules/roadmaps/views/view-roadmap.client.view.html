@@ -85,10 +85,34 @@
 
 
             <div class="row">
-                <div class="col-xs-6">
-                    <!--<label>Add a new Epic</label>-->
 
-                    <!--<form class="form-inline">-->
+
+                <div class="col-xs-4">
+                    <div class="btn-group">
+                        <label class="btn btn-primary" ng-model="roadmap.estimationModel" style="min-width: 100px"
+                               btn-radio="'normal'">Normal</label>
+                        <label class="btn btn-primary" ng-model="roadmap.estimationModel" style="min-width: 100px"
+                               btn-radio="'PERT'">PERT</label>
+                    </div>
+                </div>
+
+                <div class="col-xs-4">
+                    <div class="form-group">
+                        <div class="input-group">
+                            <div class="input-group-addon">Start Date</div>
+                            <input type="text" style="height:48px;" class="form-control" is-open="datePickerOpen"
+                                   datepicker-popup="{{format}}" ng-model="roadmap.start" ng-required="true"
+                                   close-text="Close"/>
+              <span class="input-group-btn">
+                <button style="height:48px;" type="button" class="btn btn-default" ng-click="openDatePicker($event)"><i
+                        class="glyphicon glyphicon-calendar"></i></button>
+              </span>
+                        </div>
+                    </div>
+                </div>
+
+
+                <div class="col-xs-4">
                     <div class="form-group">
 
                         <div class="input-group">
@@ -105,34 +129,6 @@
 
 
                     </div>
-
-                    <!--</form>-->
-
-
-                </div>
-
-
-                <div class="col-xs-6">
-
-
-                    <div class="form-group">
-
-
-                        <div class="input-group">
-                            <div class="input-group-addon">Start Date</div>
-                            <input type="text" style="height:48px;" class="form-control" is-open="datePickerOpen"
-                                   datepicker-popup="{{format}}" ng-model="roadmap.start" ng-required="true"
-                                   close-text="Close"/>
-              <span class="input-group-btn">
-                <button style="height:48px;" type="button" class="btn btn-default" ng-click="openDatePicker($event)"><i
-                        class="glyphicon glyphicon-calendar"></i></button>
-              </span>
-                        </div>
-
-
-                    </div>
-
-
                 </div>
             </div>
 
@@ -159,15 +155,12 @@
 
 
         <div data-as-sortable="dragControlListeners" data-ng-model="roadmap.epics" style="margin-top: 10px">
-            <div data-as-sortable-item data-ng-repeat="epic in roadmap.epics" >
+            <div data-as-sortable-item data-ng-repeat="epic in roadmap.epics">
                 <div class="row draggable" data-as-sortable-item-handle>
 
 
                     <div class="col-xs-4" style="padding-top:10px; padding-left: 35px">
-
-
                         <div class="form-group">
-
                             <div class="input-group">
                                 <div class="input-group-addon">Name</div>
                                 <input type="text" data-ng-model="epic.name" style="height:48px;" class="form-control"
@@ -176,42 +169,49 @@
                                 <div class="input-group-addon"><a href="" data-ng-click="removeEpic(epic)">
                                     <i class="glyphicon glyphicon-minus-sign "></i>
                                 </a></div>
-
                             </div>
-
-
                         </div>
-
-
                     </div>
 
-                    <div class="col-xs-4" style="padding-top:10px">
-
+                    <div class="col-xs-4" style="padding-top:10px" data-ng-if="roadmap.estimationModel == 'normal'">
                         <div class="form-group">
-
                             <div class="input-group">
                                 <div class="input-group-addon">Estimated Duration [days]</div>
                                 <input type="text" data-ng-model="epic.estimated" style="height:48px;"
                                        class="form-control"
                                        placeholder="Epic">
-
-
                             </div>
-
-
                         </div>
-
-
                     </div>
 
 
-                    <div class="col-xs-4" style="padding-top:10px; padding-right: 25px">
+                    <div class="col-xs-4" style="padding-top:10px; padding-right: 25px"
+                         data-ng-if="roadmap.estimationModel == 'normal'">
                         <div class="input-group">
                             <div class="input-group-addon">Deviation [days]</div>
                             <input type="text" data-ng-model="epic.deviation" style="height:48px;" class="form-control"
                                    placeholder="Epic">
 
+                        </div>
+                    </div>
 
+
+                    <div class="col-xs-8" style="padding-top:10px; padding-right: 25px" data-ng-if="roadmap.estimationModel == 'PERT'">
+                        <div class="form-group">
+                            <div class="input-group">
+                                <div class="input-group-addon">Low [days]</div>
+                                <input type="text" data-ng-model="epic.low" style="height:48px;"
+                                       class="form-control"
+                                       placeholder="Low">
+                                <div class="input-group-addon">Expected [days]</div>
+                                <input type="text" data-ng-model="epic.expected" style="height:48px;"
+                                       class="form-control"
+                                       placeholder="Expected">
+                                <div class="input-group-addon">High [days]</div>
+                                <input type="text" data-ng-model="epic.high" style="height:48px;"
+                                       class="form-control"
+                                       placeholder="High">
+                            </div>
                         </div>
                     </div>
 

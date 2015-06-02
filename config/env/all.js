@@ -30,7 +30,8 @@ module.exports = {
 				'public/lib/angular-bootstrap/ui-bootstrap-tpls.js' ,
 				'public/lib/ng-sortable/dist/ng-sortable.min.js',
 				'public/lib/d3/d3.min.js',
-				'public/lib/moment/moment.js'
+				'public/lib/moment/moment.js',
+				'public/lib/jstat/dist/jstat.min.js'
 			]
 		},
 		css: [

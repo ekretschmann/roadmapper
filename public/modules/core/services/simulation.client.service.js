@@ -11,7 +11,7 @@ angular.module('core').service('SimulationService', [
 
 
 
-            this.d3Data = this.transformToD3Format(this.runSimulation(roadmap.epics));
+            this.d3Data = this.transformToD3Format(this.runSimulation(roadmap.epics, roadmap.estimationModel));
             this.d3Data.start = roadmap.start;
 
 
@@ -131,9 +131,10 @@ angular.module('core').service('SimulationService', [
         };
 
 
-        this.runSimulation = function (epics) {
+        this.runSimulation = function (epics, model) {
 
-            var overlap = 0.3;
+
+            var overlap = 0.01 ;
             var result = [];
             for (var x = 0; x < 10000; x++) {
                 var map = [];
@@ -141,12 +142,20 @@ angular.module('core').service('SimulationService', [
 
                 for (var j = 0; j < epics.length; j++) {
                     var epic = epics[j];
+                    var val = 0;
+                    if (model === 'normal') {
+                        val = Math.max(1, this.random(parseFloat(epic.estimated), parseFloat(epic.deviation)));
+                    } else {
+                        val = this.pertRandom(epic.low, epic.expected, epic.high);
+                    }
+
                     map.push({
                         active: false,
-                        val: Math.max(1, this.random(epic.estimated, epic.deviation))
+                        val: val
                     });
 
                 }
+
 
                 var total = 0;
                 var originals = [];
@@ -161,7 +170,6 @@ angular.module('core').service('SimulationService', [
 
                 var deliveries = [];
 
-
                 for (var i = 0; i <= total; i++) {
 
 
@@ -174,6 +182,7 @@ angular.module('core').service('SimulationService', [
 
 
                     for (var k = 0; k < map.length; k++) {
+
                         var item = map[k];
                         if (item.active) {
                             item.val -= (1.0 / activeEpics);
@@ -203,9 +212,38 @@ angular.module('core').service('SimulationService', [
                 }
             }
 
+
             return result;
         };
 
+
+        this.pertRandom = function(min, mode, max) {
+
+            //if( min > max || mode > x.max || x.mode < x.min ) stop( "invalid parameters" );
+
+            var range = max - min;
+            if( range == 0 ) {
+                return mode;
+            }
+
+            var µ = (min + max + 4* mode ) / 6 ;
+
+    //# special case if mu == mode
+            var v;
+                if( µ == mode ){
+                    v = 2;
+                }
+                else {
+                    v = (( µ - min ) * ( 2 * mode - min - max )) /
+                    (( mode - µ ) * ( max - min ));
+                }
+
+            var w = ( v * ( max - µ )) / ( µ - min );
+            //return ( rbeta( n, v, w ) * x.range + x.min );
+            return ( jStat.beta.sample( v, w ) * range + min );
+
+
+        };
 
         this.random = function (µ, σ) {
             var x, y, r;

@@ -28,6 +28,10 @@ var RoadmapSchema = new Schema({
         type: Date,
         default: Date.now
     },
+    estimationModel: {
+        type: String,
+        default: 'normal'
+    },
     epics: {
         type: [{
             name: {
@@ -41,6 +45,18 @@ var RoadmapSchema = new Schema({
                 default: 0
             },
             deviation: {
+                type: Number,
+                default: 0
+            },
+            low: {
+                type: Number,
+                default: 0
+            },
+            expected: {
+                type: Number,
+                default: 0
+            },
+            high: {
                 type: Number,
                 default: 0
             }
