@@ -23,6 +23,22 @@
 
 @media print {
 	#header, #nav, .noprint {display: none;}
+
+	.heatmap {
+		border: 5px ridge #cccccc;
+		padding: 10px;
+		overflow: hidden;
+		width: 1200px;
+	}
+	.container {
+		width: 100%;
+	}
+}
+
+.heatmap {
+	border: 5px ridge #cccccc;
+	padding: 10px;
+	overflow: scroll
 }
 
 /* you can also define the transition style
