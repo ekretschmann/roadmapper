@@ -1,17 +1,18 @@
 'use strict';
 
-/* global moment */
+/* global moment, jstat */
 angular.module('core').service('SimulationService', [
     function () {
 
         this.toggle = false;
         this.d3Data = {};
 
-        this.run = function (roadmap) {
+        this.run = function (roadmap, n) {
 
 
+            roadmap.$update();
 
-            this.d3Data = this.transformToD3Format(this.runSimulation(roadmap.epics, roadmap.estimationModel));
+            this.d3Data = this.transformToD3Format(this.runSimulation(roadmap.epics, roadmap.estimationModel, n));
             this.d3Data.start = roadmap.start;
 
 
@@ -66,14 +67,14 @@ angular.module('core').service('SimulationService', [
             for (var k = 0; k < this.d3Data.data.length; k++) {
 
                 var dataPoint = this.d3Data.data[k];
-                    for (var l = 0; l < rows[dataPoint.row].length; l++) {
+                for (var l = 0; l < rows[dataPoint.row].length; l++) {
 
-                        if (rows[dataPoint.row][l].col === dataPoint.col) {
-                            dataPoint.probability = Math.round(rows[dataPoint.row][l].probability * 100) + '%';
-                            dataPoint.expectedDeliveryDateEarly = rows[dataPoint.row][l].expectedDeliveryDateEarly;
-                            dataPoint.expectedDeliveryDateLate = rows[dataPoint.row][l].expectedDeliveryDateLate;
-                        }
+                    if (rows[dataPoint.row][l].col === dataPoint.col) {
+                        dataPoint.probability = Math.round(rows[dataPoint.row][l].probability * 100) + '%';
+                        dataPoint.expectedDeliveryDateEarly = rows[dataPoint.row][l].expectedDeliveryDateEarly;
+                        dataPoint.expectedDeliveryDateLate = rows[dataPoint.row][l].expectedDeliveryDateLate;
                     }
+                }
 
             }
 
@@ -131,12 +132,12 @@ angular.module('core').service('SimulationService', [
         };
 
 
-        this.runSimulation = function (epics, model) {
+        this.runSimulation = function (epics, model, n) {
 
 
-            var overlap = 0.3 ;
+            var overlap = 0.3;
             var result = [];
-            for (var x = 0; x < 30000; x++) {
+            for (var x = 0; x < n; x++) {
                 var map = [];
 
 
@@ -217,30 +218,30 @@ angular.module('core').service('SimulationService', [
         };
 
 
-        this.pertRandom = function(min, mode, max) {
+        this.pertRandom = function (min, mode, max) {
 
             //if( min > max || mode > x.max || x.mode < x.min ) stop( "invalid parameters" );
 
             var range = max - min;
-            if( range == 0 ) {
+            if (range === 0) {
                 return mode;
             }
 
-            var µ = (min + max + 4* mode ) / 6 ;
+            var µ = (min + max + 4 * mode ) / 6;
 
-    //# special case if mu == mode
+            //# special case if mu == mode
             var v;
-                if( µ == mode ){
-                    v = 2;
-                }
-                else {
-                    v = (( µ - min ) * ( 2 * mode - min - max )) /
-                    (( mode - µ ) * ( max - min ));
-                }
+            if (µ === mode) {
+                v = 2;
+            }
+            else {
+                v = (( µ - min ) * ( 2 * mode - min - max )) /
+                (( mode - µ ) * ( max - min ));
+            }
 
             var w = ( v * ( max - µ )) / ( µ - min );
             //return ( rbeta( n, v, w ) * x.range + x.min );
-            return ( jStat.beta.sample( v, w ) * range + min );
+            return ( jStat.beta.sample(v, w) * range + min );
 
 
         };

@@ -21,6 +21,9 @@
 	background-position: 15px 24px;
 }
 
+@media print {
+	#header, #nav, .noprint {display: none;}
+}
 
 /* you can also define the transition style
    on the base class as well (.repeat-item) */

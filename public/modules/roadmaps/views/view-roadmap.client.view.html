@@ -1,41 +1,97 @@
 <section data-ng-controller="RoadmapsController" data-ng-init="findOne()">
 
 
-    <div class="page-header">
+    <div class="page-header noprint">
         <h1><a href="/#!/projects/{{project._id}}">{{project.name}}</a></h1>
 
 
     </div>
 
-    <div style="padding-bottom: 20px; vertical-align: middle; position: relative">
-        <a class="btn btn-primary" data-ng-click="remove();">
-            <i class="glyphicon glyphicon-trash"></i>
-        </a>
+    <div class="row" style="padding-bottom: 20px; vertical-align: middle; position: relative">
 
-        <span style="font-size: x-large; font-weight: bold; position:absolute; top: 0px; left:50px">Roadmap {{roadmap.name}}
+        <div class="col-xs-8">
+            <a class="btn btn-primary noprint" data-ng-click="remove();">
+                <i class="glyphicon glyphicon-trash"></i>
+            </a>
+            <span style="font-size: x-large; font-weight: bold; ">Roadmap {{roadmap.name}}
 
 
 
         </span>
 
-
-        <span style="position: absolute; right:0px; top:5px">
-
-            <a class="btn btn-primary" data-ng-click="update();">
-                <i class="glyphicon glyphicon-floppy-disk"></i>
-            </a>
+        </div>
 
 
-            <a class="btn btn-primary" data-ng-click="run();">
-                run simulation
-            </a>
-        </span>
+        <div class="col-xs-4 noprint" style="text-align: right">
+
+            <!--<a class="btn btn-primary" data-ng-click="update();">-->
+            <!--<i class="glyphicon glyphicon-floppy-disk"></i>-->
+            <!--</a>-->
+
+            <div>
+
+                <a class="btn btn-primary" data-ng-click="run();">
+                    run simulation
+                </a>
+            </div>
+        </div>
+    </div>
+
+    <div class="row noprint">
+        <div class="col-xs-4">
+            <div class="form-group" >
+
+                <div class="input-group">
+                    <div class="input-group-addon">Cell Width</div>
+                    <input type="number" data-ng-model="cellWidth" style="height:48px;" class="form-control"
+                           placeholder="Width">
+
+                    <div class="input-group-addon">px</div>
+                </div>
 
 
+            </div>
+        </div>
+
+
+        <div class="col-xs-4">
+
+            <div class="form-group">
+
+                <div class="input-group">
+                    <div class="input-group-addon">Label Width</div>
+                    <input type="number" data-ng-model="labelWidth" style="height:48px;" class="form-control"
+                           placeholder="Width">
+
+                    <div class="input-group-addon">px</div>
+                </div>
+
+
+            </div>
+
+        </div>
+
+        <div class="col-xs-4">
+
+            <div class="form-group">
+
+                <div class="input-group">
+                    <div class="input-group-addon">Simulations</div>
+                    <input type="number" data-ng-model="simulationNumber" style="height:48px;" class="form-control"
+                           placeholder="Number of runs">
+
+                </div>
+
+
+            </div>
+
+        </div>
     </div>
 
 
-    <div data-ng-if="heatmapVisible">
+
+
+    <div >
 
         <style>
             #tooltip {
@@ -70,7 +126,7 @@
         </div>
 
         <!--<div id='heatmap' data-ng-controller="HeatmapController" data-ng-init="init(data, cols, rows)">-->
-        <div id='heatmap' data-ng-controller="HeatmapController"
+        <div id='heatmap'
              style="border: 1px solid black; padding: 10px; overflow: scroll">
 
 
@@ -78,7 +134,7 @@
     </div>
 
 
-    <div style="padding-top: 20px">
+    <div style="padding-top: 20px" class="noprint">
 
 
         <form ng-submit="addEpic()">
@@ -196,17 +252,20 @@
                     </div>
 
 
-                    <div class="col-xs-8" style="padding-top:10px; padding-right: 25px" data-ng-if="roadmap.estimationModel == 'PERT'">
+                    <div class="col-xs-8" style="padding-top:10px; padding-right: 25px"
+                         data-ng-if="roadmap.estimationModel == 'PERT'">
                         <div class="form-group">
                             <div class="input-group">
                                 <div class="input-group-addon">Low [days]</div>
                                 <input type="text" data-ng-model="epic.low" style="height:48px;"
                                        class="form-control"
                                        placeholder="Low">
+
                                 <div class="input-group-addon">Expected [days]</div>
                                 <input type="text" data-ng-model="epic.expected" style="height:48px;"
                                        class="form-control"
                                        placeholder="Expected">
+
                                 <div class="input-group-addon">High [days]</div>
                                 <input type="text" data-ng-model="epic.high" style="height:48px;"
                                        class="form-control"

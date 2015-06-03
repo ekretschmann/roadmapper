@@ -1,8 +1,8 @@
 'use strict';
 
 // Roadmaps controller
-angular.module('roadmaps').controller('RoadmapsController', ['$scope', '$state','$stateParams', '$location', 'Authentication', 'Roadmaps', 'Projects', 'SimulationService',
-    function ($scope, $state, $stateParams, $location, Authentication, Roadmaps, Projects, SimulationService) {
+angular.module('roadmaps').controller('RoadmapsController', ['$scope', '$state','$stateParams', '$location', 'Authentication', 'Roadmaps', 'Projects', 'SimulationService', 'HeatmapService',
+    function ($scope, $state, $stateParams, $location, Authentication, Roadmaps, Projects, SimulationService, HeatmapService) {
         $scope.authentication = Authentication;
 
         $scope.epicName = '';
@@ -12,6 +12,9 @@ angular.module('roadmaps').controller('RoadmapsController', ['$scope', '$state',
         $scope.datePickerOpen = false;
 
 
+        $scope.cellWidth = 6;
+        $scope.labelWidth = 100;
+        $scope.simulationNumber = 10000;
 
 
 
@@ -128,7 +131,8 @@ angular.module('roadmaps').controller('RoadmapsController', ['$scope', '$state',
         $scope.run = function () {
 
             $scope.update();
-            SimulationService.run($scope.roadmap);
+            SimulationService.run($scope.roadmap, $scope.simulationNumber);
+            HeatmapService.drawHeatmap(SimulationService.d3Data, $scope.labelWidth, $scope.cellWidth);
 
             this.heatmapVisible = true;
         };

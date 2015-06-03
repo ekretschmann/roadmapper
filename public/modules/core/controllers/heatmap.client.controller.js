@@ -2,34 +2,32 @@
 
 /* global d3 */
 /* global moment */
-angular.module('core').controller('HeatmapController', ['$scope', 'Authentication', 'SimulationService',
-    function ($scope, Authentication, SimulationService) {
-        // This provides Authentication context.
-        $scope.authentication = Authentication;
+angular.module('core').service('HeatmapService', [
+    function () {
 
 
-        $scope.col_number = 2;
-        $scope.row_number = 3;
-        $scope.cellSize = 6;
-
-        $scope.labelWidth = 100;
-
-
-        $scope.$watch(function () {
-            return SimulationService.toggle;
-        }, function (newValue, oldValue) {
-
-            $scope.init(SimulationService.d3Data);
-        });
+        //this.col_number = 2;
+        //this.row_number = 3;
+        //cellWidth = 6;
+        //
+        //this.labelWidth = 100;
 
 
-        $scope.init = function (d3data) {
+        //this.$watch(function () {
+        //    return SimulationService.toggle;
+        //}, function (newValue, oldValue) {
+        //
+        //    this.init(SimulationService.d3Data);
+        //});
+
+
+        this.drawHeatmap = function (d3data, labelWidth, cellWidth) {
 
 
             var data = d3data.data;
             var cols = d3data.cols;
             var rows = d3data.rows;
-            //$scope.cellSize = Math.floor(720 / d3data.cols);
+            //cellWidth = Math.floor(720 / d3data.cols);
             var rowLabels = d3data.rowLabels;
             var colLabels = d3data.colLabels;
             var start = d3data.start;
@@ -51,18 +49,18 @@ angular.module('core').controller('HeatmapController', ['$scope', 'Authenticatio
             }, this);
 
 
-            $scope.col_number = cols;
-            $scope.row_number = rows;
+            this.col_number = cols;
+            this.row_number = rows;
 
-            var gridSize = $scope.cellSize,
+            var gridSize = cellWidth,
                 h = 25,
-                w = $scope.cellSize,
+                w = cellWidth,
                 rectPadding = 60;
 
             var colorLow = '#FFFFFF', colorMed = '#339933', colorHigh = '#009900';
 
             var margin = {top: 20, right: 80, bottom: 30, left: 50},
-                width = 2 * cols * $scope.cellSize,
+                width = 2 * cols * cellWidth,
                 height = rows * 25;
 
             var colorScale = d3.scale.linear()
@@ -71,6 +69,7 @@ angular.module('core').controller('HeatmapController', ['$scope', 'Authenticatio
 
 
             var svg = d3.select('#heatmap');
+
 
             svg.selectAll('*').remove();
             svg = d3.select('#heatmap').append('svg')
@@ -87,7 +86,7 @@ angular.module('core').controller('HeatmapController', ['$scope', 'Authenticatio
                 })
                 .enter().append('svg:rect')
                 .attr('x', function (d) {
-                    return d.col * w + $scope.labelWidth;
+                    return d.col * w + labelWidth;
                 })
                 .attr('y', function (d) {
                     return d.row * h;
@@ -136,12 +135,12 @@ angular.module('core').controller('HeatmapController', ['$scope', 'Authenticatio
                 .text(function (d) {
                     return d;
                 })
-                .attr('x', 0 + $scope.labelWidth)
+                .attr('x', 0 + labelWidth)
                 .attr('y', function (d, i) {
                     return i * 25 + 15;
                 })
                 .style('text-anchor', 'end')
-                .attr('transform', 'translate(-6,' + $scope.cellSize / 1.5 + ')')
+                .attr('transform', 'translate(-6,' + cellWidth / 1.5 + ')')
                 .attr('class', function (d, i) {
                     return 'rowLabel mono r' + i;
                 })
@@ -153,7 +152,7 @@ angular.module('core').controller('HeatmapController', ['$scope', 'Authenticatio
                 })
                 .on('click', function (d, i) {
                     rowSortOrder = !rowSortOrder;
-                    $scope.sortbylabel('r', i, rowSortOrder);
+                    this.sortbylabel('r', i, rowSortOrder);
                     d3.select('#order').property('selectedIndex', 4).node().focus();
                 })
             ;
@@ -168,23 +167,24 @@ angular.module('core').controller('HeatmapController', ['$scope', 'Authenticatio
                     return d;
                 })
                 .attr('x', function (d, i) {
-                    return (i * $scope.cellSize) + $scope.labelWidth;
+                    return (i * cellWidth) + labelWidth;
                 })
                 .attr('y', -5)
                 .style('text-anchor', 'left')
-                //.attr('transform', 'translate('+$scope.cellSize/2 + ',-6) rotate (-90)')
+                //.attr('transform', 'translate('+cellWidth/2 + ',-6) rotate (-90)')
                 .attr('class', function (d, i) {
                     return 'colLabel mono c' + i;
                 })
                 //.on('mouseover', function(d) {d3.select(this).classed('text-hover',true);})
                 //.on('mouseout' , function(d) {d3.select(this).classed('text-hover',false);})
-                //.on('click', function(d,i) {colSortOrder=!colSortOrder;  $scope.sortbylabel('c',i,colSortOrder);d3.select('#order').property('selectedIndex', 4).node().focus();;})
+                //.on('click', function(d,i) {colSortOrder=!colSortOrder;  this.sortbylabel('c',i,colSortOrder);d3.select('#order').property('selectedIndex', 4).node().focus();;})
             ;
 
-            var x = $scope.labelWidth;
+            var x = labelWidth;
 
-            while (x < colLabels.length*$scope.cellSize) {
-                x += 14*$scope.cellSize;
+            while (x < colLabels.length*cellWidth) {
+
+                x += 14*cellWidth;
                 svg.append('line')
                     .attr('x1', x)
                     .attr('y1', 0)
@@ -197,54 +197,6 @@ angular.module('core').controller('HeatmapController', ['$scope', 'Authenticatio
 
         };
 
-
-        //$scope.sortbylabel = function (rORc, i, sortOrder) {
-        //    var t = $scope.svg.transition().duration(3000);
-        //    var log2r = [];
-        //    var sorted; // sorted is zero-based index
-        //    d3.selectAll('.c' + rORc + i)
-        //        .filter(function (ce) {
-        //            log2r.push(ce.value);
-        //        })
-        //    ;
-        //    if (rORc === 'r') { // sort log2ratio of a gene
-        //        sorted = d3.range($scope.col_number).sort(function (a, b) {
-        //            if (sortOrder) {
-        //                return log2r[b] - log2r[a];
-        //            } else {
-        //                return log2r[a] - log2r[b];
-        //            }
-        //        });
-        //        t.selectAll('.cell')
-        //            .attr('x', function (d) {
-        //                return sorted.indexOf(d.col - 1) * $scope.cellSize;
-        //            })
-        //        ;
-        //        t.selectAll('.colLabel')
-        //            .attr('y', function (d, i) {
-        //                return sorted.indexOf(i) * $scope.cellSize;
-        //            })
-        //        ;
-        //    } else { // sort log2ratio of a contrast
-        //        sorted = d3.range($scope.row_number).sort(function (a, b) {
-        //            if (sortOrder) {
-        //                return log2r[b] - log2r[a];
-        //            } else {
-        //                return log2r[a] - log2r[b];
-        //            }
-        //        });
-        //        t.selectAll('.cell')
-        //            .attr('y', function (d) {
-        //                return sorted.indexOf(d.row - 1) * $scope.cellSize;
-        //            })
-        //        ;
-        //        t.selectAll('.rowLabel')
-        //            .attr('y', function (d, i) {
-        //                return sorted.indexOf(i) * $scope.cellSize;
-        //            })
-        //        ;
-        //    }
-        //};
 
 
     }
