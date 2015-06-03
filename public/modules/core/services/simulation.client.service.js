@@ -40,6 +40,7 @@ angular.module('core').service('SimulationService', [
                 var current = 0;
                 var firstTimeEarly = true;
                 var firstTimeLate = true;
+                var firstTimeExpected = true;
                 for (j = 0; j < rows[i].length; j++) {
                     var point = rows[i][j];
                     current += point.score;
@@ -61,6 +62,15 @@ angular.module('core').service('SimulationService', [
                         point.expectedDeliveryDateLate = false;
 
                     }
+
+                    if (point.probability > 0.5 && firstTimeExpected) {
+
+                        point.expectedDeliveryDate = true;
+                        firstTimeExpected = false;
+                    } else {
+                        point.expectedDeliveryDate = false;
+
+                    }
                 }
             }
 
@@ -73,6 +83,7 @@ angular.module('core').service('SimulationService', [
                         dataPoint.probability = Math.round(rows[dataPoint.row][l].probability * 100) + '%';
                         dataPoint.expectedDeliveryDateEarly = rows[dataPoint.row][l].expectedDeliveryDateEarly;
                         dataPoint.expectedDeliveryDateLate = rows[dataPoint.row][l].expectedDeliveryDateLate;
+                        dataPoint.expectedDeliveryDate = rows[dataPoint.row][l].expectedDeliveryDate;
                     }
                 }
 

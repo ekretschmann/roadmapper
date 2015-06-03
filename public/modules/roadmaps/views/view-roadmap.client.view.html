@@ -38,8 +38,8 @@
     </div>
 
     <div class="row noprint">
-        <div class="col-xs-4">
-            <div class="form-group" >
+        <div class="col-xs-3">
+            <div class="form-group">
 
                 <div class="input-group">
                     <div class="input-group-addon">Cell Width</div>
@@ -54,7 +54,7 @@
         </div>
 
 
-        <div class="col-xs-4">
+        <div class="col-xs-3">
 
             <div class="form-group">
 
@@ -71,7 +71,7 @@
 
         </div>
 
-        <div class="col-xs-4">
+        <div class="col-xs-3">
 
             <div class="form-group">
 
@@ -86,12 +86,23 @@
             </div>
 
         </div>
+
+        <div class="col-xs-3">
+
+            <div>
+                <input type="checkbox" data-ng-model="showExpected"
+                       placeholder="Number of runs" style="margin-right: 5px"> Show expected end date
+            </div>
+            <div>
+                <input type="checkbox" data-ng-model="showInterval"
+                       placeholder="Number of runs" style="margin-right: 5px"> Show 95% interval
+
+            </div>
+        </div>
     </div>
 
 
-
-
-    <div >
+    <div>
 
         <style>
             #tooltip {

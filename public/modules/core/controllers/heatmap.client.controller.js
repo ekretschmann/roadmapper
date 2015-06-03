@@ -21,7 +21,8 @@ angular.module('core').service('HeatmapService', [
         //});
 
 
-        this.drawHeatmap = function (d3data, labelWidth, cellWidth) {
+        this.drawHeatmap = function (d3data, labelWidth, cellWidth, showExpected, showInterval) {
+
 
 
             var data = d3data.data;
@@ -99,8 +100,11 @@ angular.module('core').service('HeatmapService', [
                 })
                 .style('fill', function (d) {
                     //console.log(d);
-                    if (d.expectedDeliveryDateEarly || d.expectedDeliveryDateLate) {
-                        return '#FFFF00';
+                    if (showInterval && (d.expectedDeliveryDateEarly || d.expectedDeliveryDateLate)) {
+                        return '#FAF61B';
+                    }
+                    if (showExpected && d.expectedDeliveryDate) {
+                        return '#3333FF';
                     }
                     return colorScale(d.score);
                 }).on('mouseover', function (d) {

@@ -12,9 +12,11 @@ angular.module('roadmaps').controller('RoadmapsController', ['$scope', '$state',
         $scope.datePickerOpen = false;
 
 
-        $scope.cellWidth = 6;
-        $scope.labelWidth = 100;
+        $scope.cellWidth = 3.5;
+        $scope.labelWidth = 190;
         $scope.simulationNumber = 10000;
+        $scope.showExpected = false;
+        $scope.showInterval = true;
 
 
 
@@ -132,7 +134,7 @@ angular.module('roadmaps').controller('RoadmapsController', ['$scope', '$state',
 
             $scope.update();
             SimulationService.run($scope.roadmap, $scope.simulationNumber);
-            HeatmapService.drawHeatmap(SimulationService.d3Data, $scope.labelWidth, $scope.cellWidth);
+            HeatmapService.drawHeatmap(SimulationService.d3Data, $scope.labelWidth, $scope.cellWidth, $scope.showExpected, $scope.showInterval);
 
             this.heatmapVisible = true;
         };
