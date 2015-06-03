@@ -60,7 +60,7 @@ angular.module('projects').controller('ProjectsController', ['$scope', '$statePa
                 $scope.project.epics.forEach(function(epic){
 
 
-                    newRoadmap.epics.push({name: epic, estimated: 0, deviation: 0});
+                    newRoadmap.epics.push({name: epic, estimated: 20, deviation: 5});
                 });
 
 

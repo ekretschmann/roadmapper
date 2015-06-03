@@ -36,9 +36,8 @@
 }
 
 .heatmap {
-	border: 5px ridge #cccccc;
 	padding: 10px;
-	overflow: scroll
+	overflow: scroll;
 }
 
 /* you can also define the transition style
