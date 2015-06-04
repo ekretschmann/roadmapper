@@ -93,7 +93,7 @@
     </div>
 
 
-    <div class="noprint panel panel-success">
+    <div class="panel panel-success">
 
         <div class="panel-heading">
 
@@ -112,7 +112,7 @@
         <div class="panel-body">
 
 
-            <div class="row">
+            <div class="row noprint">
                 <div class="col-xs-3">
                     <div class="form-group">
 
@@ -129,7 +129,7 @@
                 </div>
 
 
-                <div class="col-xs-3">
+                <div class="col-xs-3 ">
 
                     <div class="form-group">
 
@@ -217,12 +217,14 @@
             </div>
 
             <!--<div id='heatmap' data-ng-controller="HeatmapController" data-ng-init="init(data, cols, rows)">-->
+            <div class="heatmap-container">
             <div id="heatmap" class="heatmap" data-ng-show="heatmapVisible">
 
 
             </div>
+            </div>
 
-            <div style="text-align: center; padding-bottom: 10px;">
+            <div style="text-align: center; padding-bottom: 10px;" class="noprint">
                 <a class="btn btn-primary " style="width: 150px;" data-ng-click="run();">
                     <span data-ng-show="heatmapVisible">run again</span>
                     <span data-ng-show="!heatmapVisible">run</span>

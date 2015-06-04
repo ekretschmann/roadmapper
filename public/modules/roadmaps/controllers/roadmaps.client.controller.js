@@ -83,6 +83,8 @@ angular.module('roadmaps').controller('RoadmapsController', ['$scope', '$modal',
             if ($scope.locked) {
                 return;
             }
+
+
             for (var i=0; i<$scope.roadmap.epics.length; i++) {
                 var epic = $scope.roadmap.epics[i];
                 if(removedEpic._id === epic._id) {
@@ -172,6 +174,9 @@ angular.module('roadmaps').controller('RoadmapsController', ['$scope', '$modal',
                 $scope.project = Projects.get({
                    projectId: $scope.roadmap.projectId
                 });
+                if ($scope.locked) {
+                    $scope.run();
+                }
             });
         };
 
@@ -179,6 +184,9 @@ angular.module('roadmaps').controller('RoadmapsController', ['$scope', '$modal',
         $scope.findById = function (id) {
             $scope.roadmap = Roadmaps.get({
                 roadmapId: id
+            }, function() {
+                $scope.locked = new Date($scope.roadmap.locked).getTime() !== 0;
+
             });
         };
 

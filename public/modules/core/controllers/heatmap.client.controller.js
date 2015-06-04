@@ -61,7 +61,7 @@ angular.module('core').service('HeatmapService', [
             var colorLow = '#FFFFFF', colorMed = '#339933', colorHigh = '#009900';
 
             var margin = {top: 20, right: 80, bottom: 30, left: 50},
-                width = 2 * cols * cellWidth,
+                width = cols * cellWidth + margin.right + margin.left,
                 height = rows * 25;
 
             var colorScale = d3.scale.linear()
