@@ -1,6 +1,7 @@
 'use strict';
 
-/* global moment, jstat */
+/* global moment */
+/* global jstat */
 angular.module('core').service('SimulationService', [
     function () {
 

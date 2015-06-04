@@ -1,8 +1,8 @@
 'use strict';
 
-// Roadmaps controller
-angular.module('roadmaps').controller('RoadmapsController', ['$scope', '$state','$stateParams', '$location', 'Authentication', 'Roadmaps', 'Projects', 'SimulationService', 'HeatmapService',
-    function ($scope, $state, $stateParams, $location, Authentication, Roadmaps, Projects, SimulationService, HeatmapService) {
+/* global moment */
+angular.module('roadmaps').controller('RoadmapsController', ['$scope', '$modal','$state','$stateParams', '$location', 'Authentication', 'Roadmaps', 'Projects', 'SimulationService', 'HeatmapService',
+    function ($scope, $modal, $state, $stateParams, $location, Authentication, Roadmaps, Projects, SimulationService, HeatmapService) {
         $scope.authentication = Authentication;
 
         $scope.epicName = '';
@@ -17,6 +17,7 @@ angular.module('roadmaps').controller('RoadmapsController', ['$scope', '$state',
         $scope.simulationNumber = 10000;
         $scope.showExpected = false;
         $scope.showInterval = true;
+
 
 
 
@@ -87,13 +88,44 @@ angular.module('roadmaps').controller('RoadmapsController', ['$scope', '$state',
            $scope.roadmap.$update();
         };
 
-        $scope.remove = function () {
-            var projectId = $scope.roadmap.projectId;
-            $scope.roadmap.$remove(function () {
-                $location.path('projects/' + projectId);
+
+        $scope.removePopup = function(size) {
+            var modalInstance = $modal.open({
+                animation: true,
+                templateUrl: 'removeRoadmapModal.html',
+                controller: 'DeleteModalCtrl',
+                size: size,
+                resolve: {
+                    roadmap: function () {
+                        return $scope.roadmap;
+                    }
+                }
             });
 
+
         };
+
+        $scope.copyPopup = function(size) {
+            var modalInstance = $modal.open({
+                animation: true,
+                templateUrl: 'copyRoadmapModal.html',
+                controller: 'CopyModalCtrl',
+                size: size,
+                resolve: {
+                    roadmap: function () {
+                        return $scope.roadmap;
+                    },
+                    newName: function() {
+                        return $scope.copyName;
+                    }
+                }
+            });
+
+
+        };
+
+
+
 
 
         // Update existing Roadmap
@@ -142,3 +174,65 @@ angular.module('roadmaps').controller('RoadmapsController', ['$scope', '$state',
 
     }
 ]);
+
+
+angular.module('roadmaps').controller('CopyModalCtrl', function ($scope, $modalInstance, $location, Roadmaps, Projects, roadmap) {
+
+    $scope.roadmap = roadmap;
+    $scope.newName = 'Roadmap '+ moment().format('MMM Do YYYY');
+
+    $scope.ok = function () {
+
+
+
+
+        var newMap = new Roadmaps({
+            name: $scope.newName
+        });
+
+        newMap.start = $scope.roadmap.start;
+        newMap.projectId = $scope.roadmap.projectId;
+        newMap.estimationModel = $scope.roadmap.estimationModel;
+        newMap.epics = $scope.roadmap.epics;
+
+        newMap.$save(function (response) {
+
+            Projects.get({
+                projectId: $scope.roadmap.projectId
+            }, function(project) {
+                project.roadmaps.push(response._id);
+                project.$update();
+
+                $location.path('projects/' + response.projectId);
+
+            });
+
+        }, function (errorResponse) {
+            $scope.error = errorResponse.data.message;
+        });
+
+
+        $modalInstance.close();
+    };
+
+    $scope.cancel = function () {
+        $modalInstance.dismiss('cancel');
+    };
+});
+
+angular.module('roadmaps').controller('DeleteModalCtrl', function ($scope, $modalInstance, $location, roadmap) {
+
+    $scope.roadmap = roadmap;
+
+    $scope.ok = function () {
+        var projectId = $scope.roadmap.projectId;
+        $scope.roadmap.$remove(function () {
+            $location.path('projects/' + projectId);
+        });
+        $modalInstance.close();
+    };
+
+    $scope.cancel = function () {
+        $modalInstance.dismiss('cancel');
+    };
+});
