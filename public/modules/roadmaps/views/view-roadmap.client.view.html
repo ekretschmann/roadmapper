@@ -6,7 +6,7 @@
             <h3 class="modal-title">Are you sure you want to lock this Roadmap?</h3>
         </div>
 
-        <div class="modal-body">
+        <div class="modal-body" style="text-align: center">
             You will not be able to delete or modify the data in a roadmap after locking it
         </div>
 
@@ -63,13 +63,13 @@
             </div>
             <div class="col-xs-6" style="text-align: right; margin-top: 20px">
                 <div>
-                    <a class="btn btn-primary noprint" data-ng-click="lockPopup();">
+                    <a class="btn btn-primary noprint" data-ng-click="lockPopup();" ng-disabled="locked">
                         <i class="glyphicon glyphicon-lock"></i>
                     </a>
                     <a class="btn btn-primary noprint" data-ng-click="copyPopup();">
                         <i class="glyphicon glyphicon-copy"></i>
                     </a>
-                    <a class="btn btn-primary noprint" data-ng-click="removePopup();">
+                    <a class="btn btn-primary noprint" data-ng-click="removePopup();" ng-disabled="locked">
                         <i class="glyphicon glyphicon-trash"></i>
                     </a>
 
@@ -247,9 +247,9 @@
 
                     <div class="col-xs-4">
                         <div class="btn-group">
-                            <label class="btn btn-primary" ng-model="roadmap.estimationModel" style="min-width: 100px"
+                            <label  ng-disabled="locked" class="btn btn-primary" ng-model="roadmap.estimationModel" style="min-width: 100px"
                                    btn-radio="'normal'">Normal</label>
-                            <label class="btn btn-primary" ng-model="roadmap.estimationModel" style="min-width: 100px"
+                            <label ng-disabled="locked" class="btn btn-primary" ng-model="roadmap.estimationModel" style="min-width: 100px"
                                    btn-radio="'PERT'">PERT</label>
                         </div>
                     </div>
@@ -257,12 +257,12 @@
                     <div class="col-xs-4">
                         <div class="form-group">
                             <div class="input-group">
-                                <div class="input-group-addon">Start Date</div>
-                                <input type="text" style="height:48px;" class="form-control" is-open="datePickerOpen"
+                                <div ng-disabled="locked" class="input-group-addon">Start Date</div>
+                                <input ng-disabled="locked" type="text" style="height:48px;" class="form-control" is-open="datePickerOpen"
                                        datepicker-popup="{{format}}" ng-model="roadmap.start" ng-required="true"
                                        close-text="Close"/>
               <span class="input-group-btn">
-                <button style="height:48px;" type="button" class="btn btn-default" ng-click="openDatePicker($event)"><i
+                <button ng-disabled="locked" style="height:48px;" type="button" class="btn btn-default" ng-click="openDatePicker($event)"><i
                         class="glyphicon glyphicon-calendar"></i></button>
               </span>
                             </div>
@@ -274,11 +274,11 @@
                         <div class="form-group">
 
                             <div class="input-group">
-                                <div class="input-group-addon">Add Epic</div>
-                                <input type="text" data-ng-model="epicName" style="height:48px;" class="form-control"
+                                <div ng-disabled="locked" class="input-group-addon">Add Epic</div>
+                                <input ng-disabled="locked" type="text" data-ng-model="epicName" style="height:48px;" class="form-control"
                                        placeholder="Epic">
 
-                                <div class="input-group-addon"><a class="btn btn-primary" href=""
+                                <div class="input-group-addon"><a ng-disabled="locked" class="btn btn-primary" href=""
                                                                   data-ng-click="addEpic()">
                                     <i class="glyphicon glyphicon-plus-sign"></i>
                                 </a></div>
@@ -296,23 +296,23 @@
                     </div>
                 </div>
 
-                <div data-as-sortable="dragControlListeners" data-ng-model="project.epics">
-                    <div class="row" data-ng-repeat="epic in project.epics" data-as-sortable-item>
-                        <div data-as-sortable-item-handle
-                             style="padding-left: 10px; padding-top: 5px; padding-bottom: 5px">
-                            <a href="" data-ng-click="removeEpic(epic)">
-                                <i class="glyphicon glyphicon-minus-sign "></i>
-                            </a>
-                            {{epic}}
-                        </div>
-                    </div>
-                </div>
+                <!--<div data-as-sortable="dragControlListeners" data-ng-model="project.epics">-->
+                    <!--<div class="row" data-ng-repeat="epic in project.epics" data-as-sortable-item>-->
+                        <!--<div ng-disabled="locked" data-as-sortable-item-handle-->
+                             <!--style="padding-left: 10px; padding-top: 5px; padding-bottom: 5px">-->
+                            <!--<a ng-disabled="locked" href="" data-ng-click="removeEpic(epic)">-->
+                                <!--<i class="glyphicon glyphicon-minus-sign "></i>-->
+                            <!--</a>-->
+                            <!--{{epic}}-->
+                        <!--</div>-->
+                    <!--</div>-->
+                <!--</div>-->
 
 
             </form>
 
 
-            <div data-as-sortable="dragControlListeners" data-ng-model="roadmap.epics" style="margin-top: 10px">
+            <div data-as-sortable="dragControlListeners" is-disabled="locked" data-ng-model="roadmap.epics" style="margin-top: 10px">
                 <div data-as-sortable-item data-ng-repeat="epic in roadmap.epics">
                     <div class="row draggable" data-as-sortable-item-handle>
 
@@ -320,13 +320,13 @@
                         <div class="col-xs-4" style="padding-top:10px; padding-left: 35px">
                             <div class="form-group">
                                 <div class="input-group">
-                                    <div class="input-group-addon">Name</div>
-                                    <input type="text" data-ng-model="epic.name"
+                                    <div ng-disabled="locked" class="input-group-addon">Name</div>
+                                    <input ng-disabled="locked" type="text" data-ng-model="epic.name"
                                            class="form-control"
                                            placeholder="Epic">
 
-                                    <div class="input-group-addon"><a href="" data-ng-click="removeEpic(epic)">
-                                        <i class="glyphicon glyphicon-minus-sign "></i>
+                                    <div class="input-group-addon"><a ng-disabled="locked" href="" data-ng-click="removeEpic(epic)">
+                                        <i ng-class="{'text-muted':locked}" class="glyphicon glyphicon-minus-sign "></i>
                                     </a></div>
                                 </div>
                             </div>
@@ -336,7 +336,7 @@
                             <div class="form-group">
                                 <div class="input-group">
                                     <div class="input-group-addon">Estimated Duration [days]</div>
-                                    <input type="text" data-ng-model="epic.estimated"
+                                    <input ng-disabled="locked" type="text" data-ng-model="epic.estimated"
                                            class="form-control"
                                            placeholder="Epic">
                                 </div>
@@ -348,7 +348,7 @@
                              data-ng-if="roadmap.estimationModel == 'normal'">
                             <div class="input-group">
                                 <div class="input-group-addon">Deviation [days]</div>
-                                <input type="text" data-ng-model="epic.deviation"
+                                <input ng-disabled="locked" type="text" data-ng-model="epic.deviation"
                                        class="form-control"
                                        placeholder="Epic">
 
@@ -361,17 +361,17 @@
                             <div class="form-group">
                                 <div class="input-group">
                                     <div class="input-group-addon">Low [days]</div>
-                                    <input type="text" data-ng-model="epic.low"
+                                    <input ng-disabled="locked" type="text" data-ng-model="epic.low"
                                            class="form-control"
                                            placeholder="Low">
 
                                     <div class="input-group-addon">Expected [days]</div>
-                                    <input type="text" data-ng-model="epic.expected"
+                                    <input ng-disabled="locked" type="text" data-ng-model="epic.expected"
                                            class="form-control"
                                            placeholder="Expected">
 
                                     <div class="input-group-addon">High [days]</div>
-                                    <input type="text" data-ng-model="epic.high"
+                                    <input ng-disabled="locked" type="text" data-ng-model="epic.high"
                                            class="form-control"
                                            placeholder="High">
                                 </div>

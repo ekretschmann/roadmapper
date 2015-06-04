@@ -17,7 +17,7 @@ angular.module('roadmaps').controller('RoadmapsController', ['$scope', '$modal',
         $scope.simulationNumber = 10000;
         $scope.showExpected = false;
         $scope.showInterval = true;
-
+        $scope.locked = false;
 
 
 
@@ -79,6 +79,10 @@ angular.module('roadmaps').controller('RoadmapsController', ['$scope', '$modal',
 
 
         $scope.removeEpic = function(removedEpic) {
+
+            if ($scope.locked) {
+                return;
+            }
             for (var i=0; i<$scope.roadmap.epics.length; i++) {
                 var epic = $scope.roadmap.epics[i];
                 if(removedEpic._id === epic._id) {
@@ -164,7 +168,7 @@ angular.module('roadmaps').controller('RoadmapsController', ['$scope', '$modal',
             $scope.roadmap = Roadmaps.get({
                 roadmapId: $stateParams.roadmapId
             }, function() {
-                //$scope.roadmap.start = new Date($scope.roadmap.start);
+                $scope.locked = new Date($scope.roadmap.locked).getTime() !== 0;
                 $scope.project = Projects.get({
                    projectId: $scope.roadmap.projectId
                 });
@@ -258,8 +262,9 @@ angular.module('roadmaps').controller('LockModalCtrl', function ($scope, $modalI
     $scope.roadmap = roadmap;
 
     $scope.ok = function () {
-        $scope.roadmap.locked.when = Date.now();
-        //$scope.roadmap.$update();
+        $scope.roadmap.locked = Date.now();
+
+        $scope.roadmap.$update();
         $modalInstance.close();
     };
 

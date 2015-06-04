@@ -33,10 +33,8 @@ var RoadmapSchema = new Schema({
         default: 'normal'
     },
     locked: {
-        type: [{
-            when: Date
-        }],
-        default: []
+        type: Date,
+        default: 0
     },
     epics: {
         type: [{

@@ -40,6 +40,7 @@ angular.module('projects').controller('ProjectsController', ['$scope', '$statePa
         $scope.removeEpic = function (epic) {
 
 
+
             $scope.project.epics.splice($scope.project.epics.indexOf(epic), 1);
 
             $scope.project.$update(function (response) {
