@@ -89,6 +89,22 @@ angular.module('roadmaps').controller('RoadmapsController', ['$scope', '$modal',
         };
 
 
+        $scope.lockPopup = function(size) {
+            var modalInstance = $modal.open({
+                animation: true,
+                templateUrl: 'lockRoadmapModal.html',
+                controller: 'LockModalCtrl',
+                size: size,
+                resolve: {
+                    roadmap: function () {
+                        return $scope.roadmap;
+                    }
+                }
+            });
+
+
+        };
+
         $scope.removePopup = function(size) {
             var modalInstance = $modal.open({
                 animation: true,
@@ -229,6 +245,21 @@ angular.module('roadmaps').controller('DeleteModalCtrl', function ($scope, $moda
         $scope.roadmap.$remove(function () {
             $location.path('projects/' + projectId);
         });
+        $modalInstance.close();
+    };
+
+    $scope.cancel = function () {
+        $modalInstance.dismiss('cancel');
+    };
+});
+
+angular.module('roadmaps').controller('LockModalCtrl', function ($scope, $modalInstance, $location, roadmap) {
+
+    $scope.roadmap = roadmap;
+
+    $scope.ok = function () {
+        $scope.roadmap.locked.when = Date.now();
+        //$scope.roadmap.$update();
         $modalInstance.close();
     };
 
