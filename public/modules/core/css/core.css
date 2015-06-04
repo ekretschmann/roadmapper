@@ -68,3 +68,7 @@
 	height: 30px;
 }
 
+.ng-invalid{
+	background-color: #ffaaaa;
+}
+

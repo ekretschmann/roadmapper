@@ -194,10 +194,14 @@ angular.module('roadmaps').controller('RoadmapsController', ['$scope', '$modal',
 
             $scope.update();
             SimulationService.run($scope.roadmap, $scope.simulationNumber);
+
+
             HeatmapService.drawHeatmap(SimulationService.d3Data, $scope.labelWidth, $scope.cellWidth, $scope.showExpected, $scope.showInterval);
 
             this.heatmapVisible = true;
         };
+
+
 
 
     }

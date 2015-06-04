@@ -63,6 +63,7 @@
             </div>
             <div class="col-xs-6" style="text-align: right; margin-top: 20px">
                 <div>
+
                     <a class="btn btn-primary noprint" data-ng-click="lockPopup();" ng-disabled="locked">
                         <i class="glyphicon glyphicon-lock"></i>
                     </a>
@@ -298,17 +299,7 @@
                     </div>
                 </div>
 
-                <!--<div data-as-sortable="dragControlListeners" data-ng-model="project.epics">-->
-                    <!--<div class="row" data-ng-repeat="epic in project.epics" data-as-sortable-item>-->
-                        <!--<div ng-disabled="locked" data-as-sortable-item-handle-->
-                             <!--style="padding-left: 10px; padding-top: 5px; padding-bottom: 5px">-->
-                            <!--<a ng-disabled="locked" href="" data-ng-click="removeEpic(epic)">-->
-                                <!--<i class="glyphicon glyphicon-minus-sign "></i>-->
-                            <!--</a>-->
-                            <!--{{epic}}-->
-                        <!--</div>-->
-                    <!--</div>-->
-                <!--</div>-->
+
 
 
             </form>
@@ -363,18 +354,21 @@
                             <div class="form-group">
                                 <div class="input-group">
                                     <div class="input-group-addon">Low [days]</div>
-                                    <input ng-disabled="locked" type="text" data-ng-model="epic.low"
+                                    <input ng-disabled="locked" type="number" data-ng-model="epic.low"
                                            class="form-control"
+                                           ng-max="epic.expected"
                                            placeholder="Low">
 
                                     <div class="input-group-addon">Expected [days]</div>
-                                    <input ng-disabled="locked" type="text" data-ng-model="epic.expected"
+                                    <input ng-disabled="locked" type="number" data-ng-model="epic.expected"
                                            class="form-control"
+                                           ng-min="epic.low"
+                                           ng-max="epic.high"
                                            placeholder="Expected">
-
                                     <div class="input-group-addon">High [days]</div>
-                                    <input ng-disabled="locked" type="text" data-ng-model="epic.high"
+                                    <input ng-disabled="locked" type="number" data-ng-model="epic.high"
                                            class="form-control"
+                                           ng-min="epic.expected"
                                            placeholder="High">
                                 </div>
                             </div>
@@ -386,5 +380,4 @@
             </div>
         </div>
     </div>
-
 </section>

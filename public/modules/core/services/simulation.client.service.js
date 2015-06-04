@@ -150,6 +150,7 @@ angular.module('core').service('SimulationService', [
             var overlap = 0.30;
             var result = [];
             for (var x = 0; x < n; x++) {
+
                 var map = [];
 
 
