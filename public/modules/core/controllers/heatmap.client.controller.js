@@ -186,7 +186,7 @@ angular.module('core').service('HeatmapService', [
 
             var x = labelWidth;
 
-            while (x < colLabels.length*cellWidth) {
+            while (x < colLabels.length*cellWidth + labelWidth) {
 
                 x += 14*cellWidth;
                 svg.append('line')
